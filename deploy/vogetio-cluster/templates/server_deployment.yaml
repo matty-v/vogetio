@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vogetio-server
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/component: vogetio-server-deployment-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}
+      app.kubernetes.io/component: vogetio-server-deployment-pod
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}
+        app.kubernetes.io/component: vogetio-server-deployment-pod
+    spec:
+      containers:
+        - name: vogetio-server
+          image: gcr.io/kinetic-object-322814/vogetio-server
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: db-url
+                  key: dbUrl
+          ports:
+            - containerPort: 3001
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 100M

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vogetio-app
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/component: vogetio-app-service
+spec:
+  ports:
+    - name: vogetio-app
+      port: 3000
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/component: vogetio-app-deployment-pod
+  sessionAffinity: None
+  type: NodePort
