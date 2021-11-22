@@ -1,4 +1,4 @@
-# vogetio - My Personal Website
+# voget.io - My Personal Website
 
 ## Components
 
