@@ -1,11 +1,11 @@
 # build environment
-FROM node:14-alpine as build
+FROM node:14.8.0-alpine as build
 
 WORKDIR /app
 
 COPY ./src ./src
 COPY tsconfig.json .
-COPY package*.json .
+COPY package*.json ./
 COPY ./prisma/ ./prisma/
 
 RUN npm install
@@ -15,7 +15,7 @@ RUN prisma generate
 RUN npm run build
 
 # prod environment
-FROM node:14-alpine
+FROM node:14.8.0-alpine
 WORKDIR /app
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
