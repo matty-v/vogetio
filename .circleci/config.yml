@@ -2,10 +2,72 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+commands:
+  docker-build-and-push:
+    parameters:
+      image-name:
+        type: string
+        description: The name of the docker project / quay repository without the `stoplight/` prefix
+      dockerfile:
+        type: string
+        description: The location of the Dockerfile
+        default: ""
+    steps:
+      - run: git config core.abbrev 7
+      - run:
+          name: Build and tag Docker image
+          command: |
+            GIT_COMMIT="$(git rev-parse --short HEAD)"
+            GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\//\./g')" # replace / with . so we can use branch name as tag
+            IMAGE_BASE=quay.io/stoplight/<<parameters.image-name>>
+            DOCKERFILE="<<parameters.dockerfile>>"
+
+            docker build -t $IMAGE_BASE:$GIT_COMMIT -t $IMAGE_BASE:$GIT_BRANCH -t $IMAGE_BASE:$CIRCLE_SHA1 -f ${DOCKERFILE:-"infrastructure/<<parameters.image-name>>/Dockerfile"} . | while read line ; do echo "$(date)| $line"; done;
+      - run:
+          name: Push Docker image to Quay
+          command: |
+            GIT_COMMIT="$(git rev-parse --short HEAD)"
+            GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\//\./g')" # replace / with . so we can use branch name as tag
+            IMAGE_BASE=quay.io/stoplight/<<parameters.image-name>>
+            docker push $IMAGE_BASE:$GIT_COMMIT
+            docker push $IMAGE_BASE:$GIT_BRANCH
+            docker push $IMAGE_BASE:$CIRCLE_SHA1
+      - run: |
+          ssh remote-docker \<<EOF
+            sudo bash -c 'echo "{\"experimental\": true}" > /etc/docker/daemon.json'
+            sudo systemctl restart docker
+          EOF
+      - run:
+          name: Check if prod tag exist
+          shell: /bin/bash -exo pipefail
+          command: |
+            # If we try to deploy a service for the first time then TF will
+            # try to deploy the service with the prod tag before it's been
+            # pushed with the prod tag for the first time.
+            #
+            # To solve this we'll check if we're on v2 and if the service
+            # is missing a prod tag. If so, we will copy the current image to
+            # the prod tag.
+            export DOCKER_CLI_EXPERIMENTAL=enabled
+
+            if [[ "<< pipeline.git.branch >>" = "v2" ]]; then
+              GIT_COMMIT="$(git rev-parse --short HEAD)"
+              PROD_TAG="$(gcloud --project stoplight-dojo-production secrets versions access latest --secret prod_image-tag)"
+              IMAGE_BASE="quay.io/stoplight/<<parameters.image-name>>"
+
+              IMAGE_EXISTS=true
+              docker manifest inspect "${IMAGE_BASE}:${PROD_TAG}" || IMAGE_EXISTS=false
+
+              if [[ "${IMAGE_EXISTS}" = "false" ]]; then
+                docker tag "${IMAGE_BASE}:${GIT_COMMIT}" "${IMAGE_BASE}:${PROD_TAG}"
+                docker push "${IMAGE_BASE}:${PROD_TAG}"
+              fi
+            fi
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
+  build-and-push-app:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
@@ -15,12 +77,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: "Build App Image"
+          command: |
+            cd app;
+            npm run docker-build;
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  build-and-deploy:
     jobs:
-      - say-hello
+      - build-and-push-app
