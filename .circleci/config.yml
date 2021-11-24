@@ -13,7 +13,8 @@ commands:
       - run:
           name: "Build Image"
           command: |
-            docker build -t vogetio-<<parameters.component-name>>:latest -f ./<<parameters.component-name>>/Dockerfile .
+            cd <<parameters.component-name>>
+            docker build -t vogetio-<<parameters.component-name>>:latest -f Dockerfile .
       - run:
           name: "Tage and Push Image to GCR"
           command: |
