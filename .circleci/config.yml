@@ -33,7 +33,7 @@ jobs:
       - checkout
       - node/install
       - docker-build-and-push:
-          image-name: <<parameters.component-name>>
+          component-name: <<parameters.component-name>>
 
 workflows:
   default:
