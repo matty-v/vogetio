@@ -53,7 +53,7 @@ jobs:
             # install kubectl
             apt-get install -y kubectl
 
-            gcloud container clusters get-credentials vogetio-cluster --zone us-central1-a --project kinetic-object-322814
+            gcloud container clusters get-credentials vogetio-cluster --zone us-central1 --project kinetic-object-322814
             kubectl config set-context --current --namespace=default
 
             # install helm
