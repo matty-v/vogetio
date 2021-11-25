@@ -41,19 +41,46 @@ jobs:
       - docker-build-and-push:
           component-name: <<parameters.component-name>>
 
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - gcloud-auth
+      - run:
+          name: Deploy with helm
+          command: |
+            # install kubectl
+            apt-get install -y kubectl
+
+            gcloud container clusters get-credentials vogetio-cluster --zone us-central1-a --project kinetic-object-322814
+            kubectl config set-context --current --namespace=default
+
+            # install helm
+            curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+            GIT_COMMIT="$(git rev-parse --short HEAD)"
+
+            helm upgrade prod . --set imageTag=$GIT_COMMIT --wait --debug
+
 workflows:
   default:
     jobs:
-      - build-and-push:
-          name: build-and-push-app
-          component-name: app
-          filters:
-            branches:
-              only:
-                - master
-      - build-and-push:
-          name: build-and-push-server
-          component-name: server
+      # - build-and-push:
+      #     name: build-and-push-app
+      #     component-name: app
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      # - build-and-push:
+      #     name: build-and-push-server
+      #     component-name: server
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      - deploy:
           filters:
             branches:
               only:
