@@ -68,21 +68,24 @@ jobs:
 workflows:
   default:
     jobs:
-      # - build-and-push:
-      #     name: build-and-push-app
-      #     component-name: app
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      # - build-and-push:
-      #     name: build-and-push-server
-      #     component-name: server
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
+      - build-and-push:
+          name: build-and-push-app
+          component-name: app
+          filters:
+            branches:
+              only:
+                - master
+      - build-and-push:
+          name: build-and-push-server
+          component-name: server
+          filters:
+            branches:
+              only:
+                - master
       - deploy:
+          requires:
+            - build-and-push-app
+            - build-and-push-server
           filters:
             branches:
               only:
