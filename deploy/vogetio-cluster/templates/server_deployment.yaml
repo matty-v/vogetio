@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: vogetio-server
-          image: gcr.io/kinetic-object-322814/vogetio-server
+          image: gcr.io/kinetic-object-322814/vogetio-server:{{ .Values.imageTag }}
           env:
             - name: DATABASE_URL
               valueFrom:
