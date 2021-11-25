@@ -61,6 +61,8 @@ jobs:
 
             GIT_COMMIT="$(git rev-parse --short HEAD)"
 
+            cd deploy/vogetio-cluster
+
             helm upgrade prod . --set imageTag=$GIT_COMMIT --wait --debug
 
 workflows:
