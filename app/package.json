@@ -6,8 +6,7 @@
   "scripts": {
     "docker-build": "docker build -t vogetio-app:latest -f Dockerfile .",
     "build": "webpack",
-    "serve": "webpack serve --open",
-    "dev": "node server.js"
+    "serve": "node server.js"
   },
   "keywords": [],
   "author": "",
