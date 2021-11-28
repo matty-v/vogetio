@@ -12,6 +12,7 @@ COPY package-lock.json ./
 RUN npm ci --silent
 RUN npm install webpack@5.64.4 -g --silent
 RUN npm install webpack-cli@4.9.1 -g --silent
+RUN npm install -D webpack-dev-server --silent
 
 COPY . ./
 
