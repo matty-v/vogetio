@@ -10,7 +10,7 @@ spec:
     - name: vogetio-app
       port: 3000
       protocol: TCP
-      targetPort: 80
+      targetPort: 3000
   selector:
     app.kubernetes.io/name: {{ .Release.Name }}
     app.kubernetes.io/component: vogetio-app-deployment-pod
