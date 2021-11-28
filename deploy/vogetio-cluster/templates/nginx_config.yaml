@@ -9,10 +9,6 @@ data:
       server vogetio-app:3000;
     }
 
-    upstream vogetio-server {
-      server vogetio-server:3001;
-    }
-
     server {
       listen 8080 default_server;
       listen [::]:8080 default_server;
@@ -20,11 +16,6 @@ data:
       # Frontend
       location / {
         proxy_pass http://vogetio-app; # same name as network alias
-      }
-
-      # Backend
-      location /api {
-        proxy_pass http://vogetio-server;  # <--- note this has an extra /
       }
 
       # You may need this to prevent return 404 recursion.
