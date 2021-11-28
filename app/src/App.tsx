@@ -2,11 +2,18 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const { REACT_APP_SERVER_URL } = process.env;
+
 function App() {
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch(`${process.env.SERVER_URL}/api/users`)
+    fetch(`${REACT_APP_SERVER_URL}/api/users`, {
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin':'*'
+      }
+    })
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);

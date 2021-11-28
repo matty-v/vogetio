@@ -27,6 +27,8 @@ services:
     command: /bin/sh -c "npm run start"
     ports:
       - "3000:3000"
+    environment:
+      REACT_APP_SERVER_URL: "http://localhost:3001"
     networks:
       - internal
 

@@ -20,6 +20,9 @@ spec:
       containers:
         - name: vogetio-app
           image: gcr.io/kinetic-object-322814/vogetio-app:{{ .Values.imageTag }}
+          env:
+            - name: REACT_APP_SERVER_URL
+              value: "https://vogetio-server-g56q77hy2a-uc.a.run.app"
           ports:
             - containerPort: 80
           imagePullPolicy: Always
