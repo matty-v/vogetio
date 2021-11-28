@@ -21,4 +21,6 @@ FROM nginx:stable-alpine
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
 
+ENV REACT_APP_SERVER_URL https://vogetio-server-g56q77hy2a-uc.a.run.app
+
 CMD ["nginx", "-g", "daemon off;"]
