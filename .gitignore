@@ -4,11 +4,8 @@
 /app/node_modules
 /server/node_modules
 
-# testing
-/app/coverage
-
 # production
-/app/build
+/app/dist
 /server/dist
 
 # debug

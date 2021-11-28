@@ -1,14 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
 import './App.css';
+const SERVER_URL = process.env.SERVER_URL;
 
-const { REACT_APP_SERVER_URL } = process.env;
+export default function App() {
 
-function App() {
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch(`${REACT_APP_SERVER_URL}/api/users`, {
+    fetch(`${SERVER_URL}/api/users`, {
       mode: 'cors',
       headers: {
         'Access-Control-Allow-Origin':'*'
@@ -22,11 +21,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Hello World!</h1>
-        <img src={logo} className="App-logo" alt="logo" />
         <p>{!data ? "Loading..." : JSON.stringify(data, null, 2)}</p>
       </header>
     </div>
   );
 }
-
-export default App;

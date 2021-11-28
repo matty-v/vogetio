@@ -1,5 +1,5 @@
 # build environment
-FROM node:14.8.0-alpine as build
+FROM node:14.8.0-alpine
 
 WORKDIR /app
 
@@ -10,17 +10,9 @@ COPY package.json ./
 COPY package-lock.json ./
 
 RUN npm ci --silent
-RUN npm install react-scripts@4.0.3 -g --silent
 
 COPY . ./
-RUN npm run build
 
-# production environment
-FROM nginx:stable-alpine
+EXPOSE 3000
 
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
-
-ENV REACT_APP_SERVER_URL https://vogetio-server-g56q77hy2a-uc.a.run.app
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "serve"]
