@@ -11,7 +11,7 @@ RUN npm ci --silent
 WORKDIR /app
 COPY . /app/
 RUN cp -a /tmp/node_modules /app/
-RUN npm run build
+RUN npm run build-prod
 
 # prod environment
 FROM node:14.8.0-alpine

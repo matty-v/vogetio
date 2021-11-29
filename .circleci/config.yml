@@ -41,14 +41,14 @@ jobs:
       - docker-build-and-push:
           component-name: <<parameters.component-name>>
 
-  deploy:
+  deploy-helm:
     docker:
       - image: google/cloud-sdk
     steps:
       - checkout
       - gcloud-auth
       - run:
-          name: Deploy with helm
+          name: Deploy app with helm
           command: |
             # install kubectl
             apt-get install -y kubectl
@@ -64,6 +64,19 @@ jobs:
             cd deploy/vogetio-cluster
 
             helm upgrade prod . --set imageTag=$GIT_COMMIT --wait --debug
+
+  deploy-cloud-run:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - gcloud-auth
+      - run:
+          name: Deploy server to Cloud Run
+          command: |
+            GIT_COMMIT="$(git rev-parse --short HEAD)"
+
+            gcloud run deploy vogetio-server --image=gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT --project=kinetic-object-322814 --region=us-central1
 
 workflows:
   default:
@@ -82,7 +95,15 @@ workflows:
             branches:
               only:
                 - master
-      - deploy:
+      - deploy-helm:
+          requires:
+            - build-and-push-app
+            - build-and-push-server
+          filters:
+            branches:
+              only:
+                - master
+      - deploy-cloud-run:
           requires:
             - build-and-push-app
             - build-and-push-server

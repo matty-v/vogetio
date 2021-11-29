@@ -1,11 +1,11 @@
 {
-  "name": "app",
+  "name": "vogetio-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "docker-build": "docker build -t vogetio-app:latest -f Dockerfile .",
-    "build": "webpack",
+    "build-prod": "webpack --env production",
+    "build-dev": "webpack --env development",
     "serve": "node server.js",
     "dev": "webpack && concurrently --names \"webpack,nodemon\" --prefix \"({name})\" --prefix-colors \"magenta.bold,white.bold\" \"webpack --watch\" \"nodemon server.js\""
   },

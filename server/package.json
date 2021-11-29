@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "docker-build": "docker build -t vogetio-server:latest -f Dockerfile .",
     "start": "node ./dist/server.js",
     "build": "tsc -p .",
     "prisma-gen": "npx prisma generate",
