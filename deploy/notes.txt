@@ -1,4 +1,0 @@
-# Switching k8s contexts for gke:
-gcloud auth login
-gcloud config set project PROJECT_ID
-gcloud container clusters get-credentials --region REGION-NAME CLUSTER-NAME

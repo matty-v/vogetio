@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@4.7.0
+
 commands:
   gcloud-auth:
     description: Authenticates with Google Cloud SDK
@@ -12,67 +15,50 @@ commands:
             gcloud auth activate-service-account --key-file=kinetic-object-322814-7a336f8de0fa.json --project=kinetic-object-322814
             gcloud -q auth configure-docker
 
-  docker-build-and-push:
-    parameters:
-      component-name:
-        type: string
-        description: Name of the component to build and push
-    steps:
-      - run:
-          name: "Build and Push Image"
-          command: |
-            GIT_COMMIT="$(git rev-parse --short HEAD)"
-            cd <<parameters.component-name>>
-            docker build -t gcr.io/kinetic-object-322814/vogetio-<<parameters.component-name>>:$GIT_COMMIT -f Dockerfile .
-            docker push gcr.io/kinetic-object-322814/vogetio-<<parameters.component-name>>:$GIT_COMMIT
-
 jobs:
-  build-and-push:
-    parameters:
-      component-name:
-        type: string
-        description: Name of the component to push to GCR
+  build-and-push-server-image:
     docker:
       - image: google/cloud-sdk
     steps:
       - setup_remote_docker
       - checkout
       - gcloud-auth
-      - docker-build-and-push:
-          component-name: <<parameters.component-name>>
-
-  deploy-helm:
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - gcloud-auth
       - run:
-          name: Deploy app with helm
+          name: "Build and Push Server Image"
           command: |
-            # install kubectl
-            apt-get install -y kubectl
-
-            gcloud container clusters get-credentials vogetio-cluster --zone us-central1 --project kinetic-object-322814
-            kubectl config set-context --current --namespace=default
-
-            # install helm
-            curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
             GIT_COMMIT="$(git rev-parse --short HEAD)"
+            cd server
+            docker build -t gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT -f Dockerfile .
+            docker push gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT
 
-            cd deploy/vogetio-cluster
+  build-and-deploy-app-to-bucket:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - gcloud-auth
+      - node/install
+      - run:
+          name: Deploy App to Bucket
+          command: |
+            cd app
 
-            helm upgrade prod . --set imageTag=$GIT_COMMIT --wait --debug
+            # Webpack build
+            npm install webpack@5.64.4 -g
+            npm ci --silent
+            npm run build-prod
 
-  deploy-cloud-run:
+            # Upload to bucket
+            gsutil cp dist/* gs://vogetio-app/
+
+  deploy-server-to-cloud-run:
     docker:
       - image: google/cloud-sdk
     steps:
       - checkout
       - gcloud-auth
       - run:
-          name: Deploy server to Cloud Run
+          name: Deploy Server to Cloud Run
           command: |
             GIT_COMMIT="$(git rev-parse --short HEAD)"
 
@@ -81,32 +67,19 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-and-push:
-          name: build-and-push-app
-          component-name: app
+      - build-and-deploy-app-to-bucket:
           filters:
             branches:
               only:
                 - master
-      - build-and-push:
-          name: build-and-push-server
-          component-name: server
+      - build-and-push-server-image:
           filters:
             branches:
               only:
                 - master
-      - deploy-helm:
+      - deploy-server-to-cloud-run:
           requires:
-            - build-and-push-app
-            - build-and-push-server
-          filters:
-            branches:
-              only:
-                - master
-      - deploy-cloud-run:
-          requires:
-            - build-and-push-app
-            - build-and-push-server
+            - build-and-push-server-image
           filters:
             branches:
               only:
