@@ -24,7 +24,7 @@ jobs:
       - checkout
       - gcloud-auth
       - run:
-          name: "Build and Push Server Image"
+          name: "Build and Deploy vogetio-server"
           command: |
             GIT_COMMIT="$(git rev-parse --short HEAD)"
             cd server
@@ -41,7 +41,7 @@ jobs:
       - gcloud-auth
       - node/install
       - run:
-          name: Deploy App to Bucket
+          name: "Build and Deploy vogetio-app"
           command: |
             cd app
 
