@@ -3,7 +3,7 @@
   "info": {
     "title": "openapi.v1",
     "version": "1.0",
-    "summary": "The API for voget.io",
+    "summary": "The API for voget.io test",
     "description": "Contains all the operations for the voget.io API",
     "contact": {
       "name": "Matt Voget",
