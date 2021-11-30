@@ -16,7 +16,7 @@ commands:
             gcloud -q auth configure-docker
 
 jobs:
-  build-and-push-server-image:
+  build-and-deploy-server:
     docker:
       - image: google/cloud-sdk
     steps:
@@ -31,7 +31,9 @@ jobs:
             docker build -t gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT -f Dockerfile .
             docker push gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT
 
-  build-and-deploy-app-to-bucket:
+            gcloud run deploy vogetio-server --image=gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT --project=kinetic-object-322814 --region=us-central1
+
+  build-and-deploy-app:
     docker:
       - image: google/cloud-sdk
     steps:
@@ -51,35 +53,15 @@ jobs:
             # Upload to bucket
             gsutil cp dist/* gs://vogetio-app/
 
-  deploy-server-to-cloud-run:
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - gcloud-auth
-      - run:
-          name: Deploy Server to Cloud Run
-          command: |
-            GIT_COMMIT="$(git rev-parse --short HEAD)"
-
-            gcloud run deploy vogetio-server --image=gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT --project=kinetic-object-322814 --region=us-central1
-
 workflows:
   default:
     jobs:
-      - build-and-deploy-app-to-bucket:
+      - build-and-deploy-server:
           filters:
             branches:
               only:
                 - master
-      - build-and-push-server-image:
-          filters:
-            branches:
-              only:
-                - master
-      - deploy-server-to-cloud-run:
-          requires:
-            - build-and-push-server-image
+      - build-and-deploy-app:
           filters:
             branches:
               only:
