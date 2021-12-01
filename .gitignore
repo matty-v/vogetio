@@ -3,6 +3,7 @@
 # dependencies
 /app/node_modules
 /server/node_modules
+/db/node_modules
 
 # production
 /app/dist
@@ -11,3 +12,4 @@
 # debug
 /app/npm-debug.log*
 /server/npm-debug.log*
+/db/npm-debug.log*
