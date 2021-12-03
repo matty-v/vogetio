@@ -14,14 +14,16 @@ export default function App() {
       }
     })
       .then((res) => res.json())
-      .then((data) => setData(data));
+      .then((data) => {
+        console.log(data);
+        setData(data);
+      });
   }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hello World!</h1>
-        <p>{!data ? "Loading..." : JSON.stringify(data, null, 2)}</p>
+        <h1>voget.io is under construction...</h1>
       </header>
     </div>
   );

@@ -17,6 +17,18 @@ services:
     networks:
       - internal
 
+  migrate-db:
+    image: node:14-alpine
+    depends_on:
+      - postgres
+    restart: "no"
+    volumes:
+      - ./db:/home/node/db
+    working_dir: /home/node/db
+    command: /bin/sh -c "npm run migrate"
+    networks:
+      - internal
+
   app:
     container_name: vogetio-app
     image: node:14-alpine
