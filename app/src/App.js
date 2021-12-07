@@ -23,7 +23,7 @@ export default function App() {
   return (
     <div className="App">
       <div class="container">
-        <div class="row">
+        <div id="" class="row">
           <div id="profile-pic" class="col">
             <img src="assets/profile-pic.jpeg" alt="Profile"/>
           </div>
@@ -32,31 +32,24 @@ export default function App() {
               Hello, World!
             </div>
             <div id="hello-subtext">
-              Welcome to voget.io, my personal site
+              You've found Matt Voget's personal site
+            </div>
+            <div id="contact-icons">
+              <a href="https://github.com/matty-v" class="fa fa-github"></a>
+              <a href="https://www.linkedin.com/in/matthew-voget-47a225a1" class="fa fa-linkedin"></a>
+              <a href="mailto: matt.voget@gmail.com" class="fa fa-envelope"></a>
             </div>
           </div>
           <div class="col">
+
           </div>
         </div>
         <div class="row content-row">
           <div class="col">
-            <div>
-              <h1>About Me</h1>
-            </div>
-            <div id="about-me-text">
-              <ul>
-                <li>Full stack software engineer</li>
-                <li>Team Lead</li>
-                <li>Dad</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="row links-row">
-          <div class="col">
-            <div>
-              <a href="https://github.com/matty-v" class="fa fa-github"></a>
-              <a href="mailto: matt.voget@gmail.com" class="fa fa-envelope"></a>
+            <div id="about-me-content">
+              <div><i class="fa fa-code"></i>Full Stack Engineer</div>
+              <div><i class="fa fa-users"></i>Team Lead</div>
+              <div><i class="fa fa-heart"></i>Dad</div>
             </div>
           </div>
         </div>
