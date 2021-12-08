@@ -25,7 +25,7 @@ export default function App() {
       <header class="mdc-top-app-bar">
         <div class="mdc-top-app-bar__row">
           <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-            <span id="app-title" class="mdc-top-app-bar__title">voget.io</span>
+            <span id="app-title" class="mdc-top-app-bar__title"><img id="v-logo" src="assets/v-logo-white.png"></img>voget.io</span>
           </section>
           <section id="contact-icons" class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
             <a href="https://github.com/matty-v" class="fa fa-github"></a>
