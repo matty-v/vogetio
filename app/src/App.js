@@ -54,7 +54,9 @@ export default function App() {
                   Hello, World!
                 </div>
                 <div id="hello-subtext">
-                  You've found Matt Voget's personal site
+                  You've found Matt Voget's personal site.<br/><br/>
+                  <strong>Coming soon:</strong> blog featuring software projects, book reviews, and anything else I find interesting!<br/>
+                  Until then, check out my <a href="https://github.com/matty-v">GitHub</a> or <a href="https://www.linkedin.com/in/matthew-voget-47a225a1/">LinkedIn</a>
                 </div>
               </div>
             </div>
@@ -65,6 +67,6 @@ export default function App() {
           </div>
         </div>
       </main>
-</>
+    </>
   );
 }
