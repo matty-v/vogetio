@@ -51,7 +51,7 @@ jobs:
             npm run build-prod
 
             # Upload to bucket
-            gsutil cp dist/* gs://vogetio-app/
+            gsutil cp -r dist/* gs://vogetio-app/
 
 workflows:
   default:
