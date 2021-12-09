@@ -1,14 +1,86 @@
 .App {
-  text-align: center;
-}
-
-.App-header {
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding-top: 100px;
+}
+
+#v-logo {
+  height: 25px;
+  width: 30px;
+  margin-right: 10px;
+}
+
+#app-title {
+  margin-left: 50px;
+}
+
+#profile-pic {
+  max-width: 220px;
+}
+
+#profile-pic img {
+  border-radius: 50%;
+  height: 200px;
+}
+
+#hello-content {
+  text-align: left;
+}
+
+#hello-text {
+  font-size: 60px;
+}
+
+#hello-subtext {
+  color: #9b9b9b;
+  font-size: 20px;
+}
+
+.content-row {
+  margin-top: 40px;
+}
+
+.links-row {
+  margin-top: 40px;
+}
+
+#about-me-title {
+  font-size: 42px;
+}
+
+#about-me-content div {
+  font-size: 32px;
+}
+
+#contact-icons {
+  display: inline-flex;
+  margin-right: 50px;
+}
+
+#contact-icons .fa {
+  text-decoration: none;
+  padding-right: 20px;
+  padding-left: 2px;
+  font-size: 32px;
+  color: white;
+}
+
+#contact-icons .fa:hover {
+  opacity: 75%;
+}
+
+#about-me-content {
+  margin-top: 25px;
+  min-width: max-content;
+}
+
+#about-me-content .fa {
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+
+.mdc-top-app-bar {
+  background-color: #141414;
 }

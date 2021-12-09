@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 module.exports = ({ isDev }) => {
   return {
@@ -49,6 +51,11 @@ module.exports = ({ isDev }) => {
     plugins: [
       new HtmlWebPackPlugin({
         template: "./src/index.html",
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: "assets", to: "assets" }
+        ],
       }),
       new webpack.EnvironmentPlugin({
         SERVER_URL: isDev ? 'http://localhost:3001' : 'https://vogetio-server-g56q77hy2a-uc.a.run.app'
