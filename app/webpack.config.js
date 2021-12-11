@@ -4,11 +4,11 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
-module.exports = ({ isDev }) => {
+module.exports = ({ isProd }) => {
   return {
 
     target: 'web',
-    mode: isDev ? 'development' : 'production',
+    mode: isProd ? 'production' : 'development',
 
     entry: {
       index: './src/index.js',
@@ -58,7 +58,7 @@ module.exports = ({ isDev }) => {
         ],
       }),
       new webpack.EnvironmentPlugin({
-        SERVER_URL: isDev ? 'http://localhost:3001' : 'https://vogetio-server-g56q77hy2a-uc.a.run.app'
+        SERVER_URL: isProd ? 'https://vogetio-server-g56q77hy2a-uc.a.run.app' : 'http://localhost:3001'
       })
     ]
   };
