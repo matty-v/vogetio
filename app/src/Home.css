@@ -1,0 +1,39 @@
+#profile-pic {
+  max-width: 220px;
+}
+
+#profile-pic img {
+  border-radius: 50%;
+  height: 200px;
+}
+
+#hello-content {
+  text-align: left;
+}
+
+#hello-text {
+  font-size: 60px;
+}
+
+#hello-subtext {
+  color: #9b9b9b;
+  font-size: 20px;
+}
+
+.content-row {
+  margin-top: 40px;
+}
+
+#about-me-content {
+  margin-top: 25px;
+  min-width: max-content;
+}
+
+#about-me-content div {
+  font-size: 32px;
+}
+
+#about-me-content .fa {
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
