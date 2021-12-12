@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
+
+import routes from './routes';
 
 const prisma = new PrismaClient()
 
@@ -21,6 +23,8 @@ app.get("/api/users", async (req: Request, res: Response) => {
   const allUsers = await prisma.user.findMany();
   res.json(allUsers);
 });
+
+app.use(routes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
