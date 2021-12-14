@@ -1,4 +1,4 @@
-export const getUser = () => {
+export const getUser = (): any => {
 
   if (!getIdToken()) {
     clearLogin();
@@ -21,7 +21,7 @@ export const getUser = () => {
   };
 }
 
-export const setLogin = (profile, token) => {
+export const setLogin = (profile: any, token: any) => {
 
   if (profile.email !== 'matt.voget@gmail.com') return;
 
@@ -41,11 +41,11 @@ const clearLogin = () => {
   localStorage.removeItem('id_token');
 }
 
-const getProfile = () => {
+const getProfile = (): any => {
   return localStorage.getItem('profile');
 }
 
-const getIdToken = () => {
+const getIdToken = (): any => {
   return localStorage.getItem('id_token');
 }
 

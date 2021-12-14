@@ -5,34 +5,3 @@
   color: white;
   padding-top: 100px;
 }
-
-#v-logo {
-  height: 25px;
-  width: 30px;
-  margin-right: 10px;
-}
-
-#app-title {
-  margin-left: 50px;
-}
-
-#contact-icons {
-  display: inline-flex;
-  margin-right: 50px;
-}
-
-#contact-icons .fa {
-  text-decoration: none;
-  padding-right: 20px;
-  padding-left: 2px;
-  font-size: 32px;
-  color: white;
-}
-
-#contact-icons .fa:hover {
-  opacity: 75%;
-}
-
-.mdc-top-app-bar {
-  background-color: #141414;
-}
