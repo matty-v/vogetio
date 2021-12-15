@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 
 import { Login } from './Login';
-
-const SERVER_URL = process.env.SERVER_URL;
-
 import './BlogAdmin.css';
 import { getUser } from './auth-service';
+import { fetchPosts, Post } from './posts-service';
+import { PostCard } from './PostCard';
 
 export function BlogAdmin() {
+  const [user, setUser] = useState(getUser());
+  const [posts, setPosts] = useState([] as Post[]);
 
-  let [user, setUser]: any = useState();
+  useEffect(() => {
+    fetchPosts(user).then((data: Post[]) => {
+      setPosts(data);
+    });
+  }, []);
 
   const navigate = useNavigate();
 
-  user = getUser();
-
-  const test = () => {
+  const navToPostEditor = () => {
     navigate('/post-editor?postId=create');
   };
 
@@ -32,8 +35,13 @@ export function BlogAdmin() {
           </div>
           <div className="row">
             <div className="col">
-              <Button variant="contained" onClick={test}>Create Post</Button>
+              <Button variant="contained" onClick={navToPostEditor}>Create Post</Button>
             </div>
+          </div>
+          <div className="row">
+            {posts.map((post: Post) => (
+              <PostCard key={post.id} title={post.title} content={post.content} />
+            ))}
           </div>
         </div>
 

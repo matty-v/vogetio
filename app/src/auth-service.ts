@@ -1,23 +1,42 @@
-export const getUser = (): any => {
+export type UserToken = {
+  idToken: string;
+  expiresAt: number;
+}
+
+export type UserProfile = {
+  name: string;
+  email: string;
+  imageUrl: string;
+}
+
+export type User = {
+  profile: UserProfile;
+  token: UserToken;
+}
+
+export const getUser = (): User | null => {
 
   if (!getIdToken()) {
     clearLogin();
-    return undefined;
+    return null;
   }
 
   if (!getProfile()) {
     clearLogin();
-    return undefined;
+    return null;
   }
 
   if (isExpired()) {
     clearLogin();
-    return undefined;
+    return null;
   }
 
   return {
     profile : JSON.parse(getProfile()),
-    idToken : getIdToken()
+    token : {
+      idToken: getIdToken(),
+      expiresAt: getExpiresAt()
+    }
   };
 }
 
@@ -34,6 +53,7 @@ export const setLogin = (profile: any, token: any) => {
     })
   );
   localStorage.setItem('id_token', token.id_token);
+  localStorage.setItem('expires_at', token.expires_at);
 };
 
 const clearLogin = () => {
@@ -45,10 +65,14 @@ const getProfile = (): any => {
   return localStorage.getItem('profile');
 }
 
-const getIdToken = (): any => {
-  return localStorage.getItem('id_token');
+const getExpiresAt = (): number => {
+  return Number.parseInt(localStorage.getItem('expires_at') as string);
+}
+
+const getIdToken = (): string => {
+  return localStorage.getItem('id_token') as string;
 }
 
 const isExpired = () => {
-  return (getIdToken().expires_at - Date.now()) <= 0;
+  return (getExpiresAt() - Date.now()) <= 0;
 };
