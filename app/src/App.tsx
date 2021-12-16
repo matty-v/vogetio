@@ -8,6 +8,7 @@ import {
 import './App.css';
 import { BlogAdmin } from './BlogAdmin';
 import { Home } from './Home';
+import { Login } from './Login';
 import { PostEditor } from './PostEditor';
 import { TopNav } from './TopNav';
 
@@ -22,6 +23,7 @@ export function App() {
             <Router>
               <Routes>
                 <Route path="/" element={<Home/>}/>
+                <Route path="/admin-login" element={<Login/>}/>
                 <Route path="/blog-admin" element={<BlogAdmin/>}/>
                 <Route path="/post-editor" element={<PostEditor/>}/>
               </Routes>

@@ -7,17 +7,14 @@
   },
   "editor.rulers": [120],
   "editor.codeActionsOnSaveTimeout": 750,
-  "eslint.enable": true,
   "eslint.lintTask.enable": true,
   "eslint.lintTask.options": "--ext .js,.jsx,.ts,.tsx,.graphql .",
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
 
-  // ESLint calls prettier for these types already, so don't let them squabble
   "javascript.format.enable": false,
   "typescript.format.enable": false,
-  "prettier.disableLanguages": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "[javascript]": {
     "editor.formatOnSave": false
   },

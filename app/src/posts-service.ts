@@ -21,9 +21,13 @@ export const fetchPosts = (user: User | null): Promise<Post[]> => {
     mode: 'cors',
     headers: buildHeaders(user)
   })
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.status >= 400 && res.status < 600) {
+      return [];
+    }
+    return res.json();
+  })
   .then((data) => {
-    console.log(data);
     return data;
   })
   .catch((error) => {
@@ -32,21 +36,91 @@ export const fetchPosts = (user: User | null): Promise<Post[]> => {
   });
 }
 
-export const savePost = (user: User | null, post: PostEdit): Promise<Post> => {
+export const fetchPostById = (user: User | null, postId: string): Promise<Post> => {
+  return fetch(`${SERVER_URL}/api/posts/${postId}`, {
+    method: 'GET',
+    mode: 'cors',
+    headers: buildHeaders(user)
+  })
+  .then((res) => {
+    if (res.status >= 400 && res.status < 600) {
+      return {} as any;
+    }
+    return res.json();
+  })
+  .then((data) => {
+    return data;
+  })
+  .catch((error) => {
+    console.error(error);
+    return {} as any;
+  });
+}
+
+export const createPost = (user: User | null, post: PostEdit): Promise<Post> => {
   return fetch(`${SERVER_URL}/api/posts`, {
     method: 'POST',
     mode: 'cors',
     headers: buildHeaders(user),
     body: JSON.stringify(post)
   })
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.status >= 400 && res.status < 600) {
+      return {} as any;
+    }
+    return res.json();
+  })
+  .then((data) => {
+    return data;
+  })
+  .catch((error) => {
+    console.error(error);
+    return {} as any;
+  });
+}
+
+export const updatePost = (user: User | null, postId: string, post: PostEdit): Promise<Post> => {
+  return fetch(`${SERVER_URL}/api/posts/${postId}`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: buildHeaders(user),
+    body: JSON.stringify(post)
+  })
+  .then((res) => {
+    if (res.status >= 400 && res.status < 600) {
+      return {} as any;
+    }
+    return res.json();
+  })
   .then((data) => {
     console.log(data);
     return data;
   })
   .catch((error) => {
     console.error(error);
-    return {};
+    return {} as any;
+  });
+}
+
+export const deletePost = (user: User | null, postId: string): Promise<Post> => {
+  return fetch(`${SERVER_URL}/api/posts/${postId}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    headers: buildHeaders(user)
+  })
+  .then((res) => {
+    if (res.status >= 400 && res.status < 600) {
+      return {} as any;
+    }
+    return res.json();
+  })
+  .then((data) => {
+    console.log(data);
+    return data;
+  })
+  .catch((error) => {
+    console.error(error);
+    return {} as any;
   });
 }
 

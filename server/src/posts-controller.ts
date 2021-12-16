@@ -24,6 +24,18 @@ postController.get('/', async (req: Request, res: Response) => {
   return res.json(posts);
 });
 
+// Get post by ID
+postController.get('/:id', async (req: Request, res: Response) => {
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: req.params.id
+    }
+  });
+
+  return res.json(post);
+});
+
 // Create new post
 postController.post('/', async (req: Request, res: Response) => {
 

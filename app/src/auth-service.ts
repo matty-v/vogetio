@@ -16,17 +16,7 @@ export type User = {
 
 export const getUser = (): User | null => {
 
-  if (!getIdToken()) {
-    clearLogin();
-    return null;
-  }
-
-  if (!getProfile()) {
-    clearLogin();
-    return null;
-  }
-
-  if (isExpired()) {
+  if (!getIdToken() || !getProfile() || isExpired()) {
     clearLogin();
     return null;
   }
@@ -59,6 +49,7 @@ export const setLogin = (profile: any, token: any) => {
 const clearLogin = () => {
   localStorage.removeItem('profile');
   localStorage.removeItem('id_token');
+  localStorage.removeItem('expires_at');
 }
 
 const getProfile = (): any => {
