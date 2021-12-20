@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,9 +11,13 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
 import { useNavigate } from "react-router-dom";
+
+import ReactHtmlParser from 'react-html-parser';
+const showdown  = require('showdown');
+
 import './PostCard.css';
 import { User } from './auth-service';
-import { deletePost, updatePost, Post } from './posts-service';
+import { updatePost, Post } from './posts-service';
 
 export function PostCard(props: {
   postId: string;
@@ -24,6 +29,8 @@ export function PostCard(props: {
   deleteCallback: (postId: string, title: string) => void,
   user: User | null
 }) {
+
+  const converter = new showdown.Converter();
 
   const navigate = useNavigate();
 
@@ -63,8 +70,10 @@ export function PostCard(props: {
         <Typography variant="h5" component="div" sx={{ color: 'white' }}>
           {props.title}
         </Typography>
-        <Typography sx={{ mb: 1.5, color: 'white', minHeight: 100 }} color="text.secondary">
-          {props.content}
+        <Typography component="div" sx={{ mb: 1.5, color: 'white', minHeight: 100 }} color="text.secondary">
+          <div id={`content-preview-${props.postId}`}>
+            { ReactHtmlParser(converter.makeHtml(props.content)) }
+          </div>
         </Typography>
       </CardContent>
       <CardActions>
