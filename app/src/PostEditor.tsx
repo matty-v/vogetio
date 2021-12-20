@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 import './PostEditor.css';
 import { getUser } from './auth-service';
@@ -65,19 +66,6 @@ export const PostEditor = withStyles(styles)(function(props: any) {
     }
   };
 
-  const removePost = () => {
-
-    const yes = confirm(`Are you sure you want to delete post [${post.title}]? This cannot be undone!`);
-
-    if (!yes) return;
-
-    deletePost(user, postId)
-    .then((deletedPost: Post) => {
-      console.log(`Deleted Post: ${JSON.stringify(deletedPost)}`);
-      navigate('/blog-admin');
-    })
-  }
-
   return (
     <>
       <h1>Post Editor</h1>
@@ -108,9 +96,10 @@ export const PostEditor = withStyles(styles)(function(props: any) {
         />
       </div>
       <div className="row">
-        <div>
+        <div className="button-row">
           <Button variant="contained" onClick={createOrUpdatePost}>Save</Button>
-          <Button variant="outlined" onClick={removePost}>Remove</Button>
+          <Typography component="div" sx={{ flexGrow: 1 }} />
+          <Button variant="outlined" color="secondary" onClick={() => navigate('/blog-admin')}>Cancel</Button>
         </div>
       </div>
     </>
