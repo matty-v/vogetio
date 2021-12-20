@@ -62,12 +62,24 @@ postController.put('/:id', async (req: Request, res: Response) => {
 
   const title = req.body.title || undefined;
   const content = req.body.content || undefined;
+  const pinned = req.body.pinned || undefined;
+  const published = req.body.published || undefined;
 
-  if (!title && !content) return res.status(400).send({ message: 'Invalid request: did not provide post data to update (title/content)' });
+  if (!title && !content && !pinned && !published) return res.status(400).send({ message: 'Invalid request: did not provide any data to update (title/content/pinned/published)' });
 
   const postDataToUpdate = {
     ...title && ({title}),
     ...content && ({content}),
+    ...pinned && ({pinned}),
+    ...published && ({published})
+  }
+
+  if (postDataToUpdate.pinned) {
+    postDataToUpdate.pinned = postDataToUpdate.pinned === 'true';
+  }
+
+  if (postDataToUpdate.published) {
+    postDataToUpdate.published = postDataToUpdate.published === 'true';
   }
 
   const postToUpdate = await prisma.post.findUnique({

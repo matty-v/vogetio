@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 
 import './BlogAdmin.css';
 import { getUser } from './auth-service';
-import { fetchPosts, Post } from './posts-service';
+import { fetchPosts, deletePost, Post } from './posts-service';
 import { PostCard } from './PostCard';
 
 export function BlogAdmin() {
@@ -23,6 +23,20 @@ export function BlogAdmin() {
     });
   }, []);
 
+  const removePost = (postId: string, title: string) => {
+    const yes = confirm(`Are you sure you want to delete post [${title}]? This cannot be undone!`);
+
+    if (!yes) return;
+
+    deletePost(user, postId)
+    .then((deletedPost: Post) => {
+      console.log(`Deleted Post: ${JSON.stringify(deletedPost)}`);
+      setPosts(posts.filter((post: Post) => {
+        return post.id !== postId;
+      }));
+    })
+  };
+
   const navToPostEditor = () => {
     navigate('/post-editor?postId=create');
   };
@@ -36,12 +50,23 @@ export function BlogAdmin() {
         </div>
         <div className="row">
           <div className="col">
-            <Button variant="contained" onClick={navToPostEditor}>Create Post</Button>
+            <Button color="primary" variant="contained" onClick={navToPostEditor}>Create Post</Button>
           </div>
         </div>
         <div className="row">
           {posts && posts.map((post: Post) => (
-            <PostCard key={post.id} postId={post.id} title={post.title} content={post.content} editMode={true} />
+            <div className="PostCard" key={post.id}>
+              <PostCard
+                postId={post.id}
+                title={post.title}
+                content={post.content}
+                isPinned={post.pinned}
+                isPublished={post.published}
+                editMode={true}
+                deleteCallback={removePost}
+                user={user}
+              />
+            </div>
           ))}
         </div>
       </div>

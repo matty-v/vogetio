@@ -32,7 +32,7 @@ export const PostEditor = withStyles(styles)(function(props: any) {
   const { classes } = props;
 
   const [user] = useState(getUser());
-  const [post, setPost] = useState({ title: '', content: ''} as PostEdit)
+  const [post, setPost] = useState({ title: '', content: '' } as PostEdit)
 
   const search = useLocation().search;
   const postId = new URLSearchParams(search).get('postId') || '';

@@ -3,8 +3,10 @@ import { User } from "./auth-service";
 const SERVER_URL = process.env.SERVER_URL;
 
 export type PostEdit = {
-  title: string;
-  content: string;
+  title?: string;
+  content?: string;
+  pinned?: string;
+  published?: string;
 }
 
 export type Post = {
@@ -12,7 +14,9 @@ export type Post = {
   title: string;
   content: string;
   createdAt: Date;
-  published: boolean;
+  updatedAt: Date;
+  pinned: string;
+  published: string;
 }
 
 export const fetchPosts = (user: User | null): Promise<Post[]> => {

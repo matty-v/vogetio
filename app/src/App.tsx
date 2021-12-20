@@ -1,9 +1,9 @@
-import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from 'react-router-dom';
+import { ThemeProvider, createTheme, PaletteMode } from '@mui/material';
 
 import './App.css';
 import { BlogAdmin } from './BlogAdmin';
@@ -12,10 +12,18 @@ import { Login } from './Login';
 import { PostEditor } from './PostEditor';
 import { TopNav } from './TopNav';
 
+
+
 export function App() {
 
+  const theme = createTheme({
+    palette: {
+      mode: 'dark'
+    },
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <TopNav />
       <main className="mdc-top-app-bar--fixed-adjust">
         <div className="App">
@@ -31,6 +39,6 @@ export function App() {
           </div>
         </div>
       </main>
-    </>
+    </ThemeProvider>
   )
 }
