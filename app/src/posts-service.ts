@@ -13,14 +13,65 @@ export type Post = {
   id: string;
   title: string;
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   pinned: string;
   published: string;
 }
 
-export const fetchPosts = (user: User | null): Promise<Post[]> => {
+export const fetchPublishedPosts = (): Promise<Post[]> => {
   return fetch(`${SERVER_URL}/api/posts`, {
+    method: 'GET',
+    mode: 'cors'
+  })
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    return data;
+  })
+  .catch((error) => {
+    console.error(error);
+    return [];
+  });
+}
+
+export const fetchPublishedAndPinnedPosts = (): Promise<Post[]> => {
+  return fetch(`${SERVER_URL}/api/posts/pinned`, {
+    method: 'GET',
+    mode: 'cors'
+  })
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    return data;
+  })
+  .catch((error) => {
+    console.error(error);
+    return [];
+  });
+}
+
+export const fetchPublishedPostById = (postId: string): Promise<Post> => {
+  return fetch(`${SERVER_URL}/api/posts/${postId}`, {
+    method: 'GET',
+    mode: 'cors'
+  })
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    return data;
+  })
+  .catch((error) => {
+    console.error(error);
+    return null;
+  });
+}
+
+export const fetchPosts = (user: User | null): Promise<Post[]> => {
+  return fetch(`${SERVER_URL}/api/admin/posts`, {
     method: 'GET',
     mode: 'cors',
     headers: buildHeaders(user)
@@ -41,7 +92,7 @@ export const fetchPosts = (user: User | null): Promise<Post[]> => {
 }
 
 export const fetchPostById = (user: User | null, postId: string): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/posts/${postId}`, {
+  return fetch(`${SERVER_URL}/api/admin/posts/${postId}`, {
     method: 'GET',
     mode: 'cors',
     headers: buildHeaders(user)
@@ -62,7 +113,7 @@ export const fetchPostById = (user: User | null, postId: string): Promise<Post> 
 }
 
 export const createPost = (user: User | null, post: PostEdit): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/posts`, {
+  return fetch(`${SERVER_URL}/api/admin/posts`, {
     method: 'POST',
     mode: 'cors',
     headers: buildHeaders(user),
@@ -84,7 +135,7 @@ export const createPost = (user: User | null, post: PostEdit): Promise<Post> => 
 }
 
 export const updatePost = (user: User | null, postId: string, post: PostEdit): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/posts/${postId}`, {
+  return fetch(`${SERVER_URL}/api/admin/posts/${postId}`, {
     method: 'PUT',
     mode: 'cors',
     headers: buildHeaders(user),
@@ -107,7 +158,7 @@ export const updatePost = (user: User | null, postId: string, post: PostEdit): P
 }
 
 export const deletePost = (user: User | null, postId: string): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/posts/${postId}`, {
+  return fetch(`${SERVER_URL}/api/admin/posts/${postId}`, {
     method: 'DELETE',
     mode: 'cors',
     headers: buildHeaders(user)

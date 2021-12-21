@@ -62,6 +62,7 @@ export function BlogAdmin() {
                 content={post.content}
                 isPinned={post.pinned}
                 isPublished={post.published}
+                lastUpdated={post.updatedAt}
                 editMode={true}
                 deleteCallback={removePost}
                 user={user}

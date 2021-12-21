@@ -5,13 +5,13 @@ import authFilter from './auth-filter';
 const prisma = new PrismaClient();
 
 /**
- * /api/posts
+ * /api/admin/posts
  */
-const postController = Router();
-postController.use(authFilter);
+const postAdminController = Router();
+postAdminController.use(authFilter);
 
 // Get all posts
-postController.get('/', async (req: Request, res: Response) => {
+postAdminController.get('/', async (req: Request, res: Response) => {
 
   const posts = await prisma.post.findMany({
     where: {
@@ -25,7 +25,7 @@ postController.get('/', async (req: Request, res: Response) => {
 });
 
 // Get post by ID
-postController.get('/:id', async (req: Request, res: Response) => {
+postAdminController.get('/:id', async (req: Request, res: Response) => {
 
   const post = await prisma.post.findUnique({
     where: {
@@ -37,7 +37,7 @@ postController.get('/:id', async (req: Request, res: Response) => {
 });
 
 // Create new post
-postController.post('/', async (req: Request, res: Response) => {
+postAdminController.post('/', async (req: Request, res: Response) => {
 
   if (!req.body.title) return res.status(400).json({ message: 'Invalid request: Post is missing a title!' });
   if (!req.body.content) return res.status(400).json({ message: 'Invalid request: Post is missing content!' });
@@ -58,7 +58,7 @@ postController.post('/', async (req: Request, res: Response) => {
 });
 
 // Update a post
-postController.put('/:id', async (req: Request, res: Response) => {
+postAdminController.put('/:id', async (req: Request, res: Response) => {
 
   const title = req.body.title || undefined;
   const content = req.body.content || undefined;
@@ -67,11 +67,17 @@ postController.put('/:id', async (req: Request, res: Response) => {
 
   if (!title && !content && !pinned && !published) return res.status(400).send({ message: 'Invalid request: did not provide any data to update (title/content/pinned/published)' });
 
+  let updatedAt = undefined;
+  if (title || content) {
+    updatedAt = new Date();
+  }
+
   const postDataToUpdate = {
     ...title && ({title}),
     ...content && ({content}),
     ...pinned && ({pinned}),
-    ...published && ({published})
+    ...published && ({published}),
+    ...updatedAt && ({updatedAt})
   }
 
   if (postDataToUpdate.pinned) {
@@ -101,7 +107,7 @@ postController.put('/:id', async (req: Request, res: Response) => {
 });
 
 // Delete a post
-postController.delete('/:id', async (req: Request, res: Response) => {
+postAdminController.delete('/:id', async (req: Request, res: Response) => {
 
   const postToDelete = await prisma.post.findUnique({
     where: {
@@ -121,4 +127,4 @@ postController.delete('/:id', async (req: Request, res: Response) => {
 });
 
 
-export default postController;
+export default postAdminController;

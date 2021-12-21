@@ -3,15 +3,19 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { useNavigate } from "react-router-dom";
 
 import './TopNav.css';
 
 export function TopNav() {
+
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar id="top-nav" position="fixed">
         <Toolbar>
-          <img id="v-logo" alt="voget.io" src="/assets/v-logo-white.png" />
+          <img id="v-logo" alt="voget.io" src="/assets/v-logo-white.png" onClick={() => navigate('/')} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             voget.io
           </Typography>

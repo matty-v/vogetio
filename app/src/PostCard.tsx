@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom';
 import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { useNavigate } from "react-router-dom";
 
 import ReactHtmlParser from 'react-html-parser';
@@ -25,8 +25,9 @@ export function PostCard(props: {
   content: string,
   isPinned: string,
   isPublished: string,
+  lastUpdated: string,
   editMode: boolean,
-  deleteCallback: (postId: string, title: string) => void,
+  deleteCallback?: (postId: string, title: string) => void,
   user: User | null
 }) {
 
@@ -67,13 +68,21 @@ export function PostCard(props: {
   return (
     <Card sx={{ maxWidth: 500, backgroundColor: '#3c3c3c' }}>
       <CardContent>
-        <Typography variant="h5" component="div" sx={{ color: 'white' }}>
+        <Typography variant="h3" component="div" sx={{ color: 'white' }}>
           {props.title}
         </Typography>
-        <Typography component="div" sx={{ mb: 1.5, color: 'white', minHeight: 100 }} color="text.secondary">
+        <hr/>
+        <Typography component="div" sx={{ mb: 1.5, color: '#bbbbbb', minHeight: 100, maxHeight: 100, overflow: 'hidden' }} color="text.secondary">
           <div id={`content-preview-${props.postId}`}>
             { ReactHtmlParser(converter.makeHtml(props.content)) }
           </div>
+        </Typography>
+        <Typography component="div" sx={{ color: '#8f8d8d', fontSize: 'large', marginLeft: '10px' }}>
+          ...
+        </Typography>
+        <hr/>
+        <Typography component="div" sx={{ color: 'white', fontSize: 'small' }}>
+          {new Date(Date.parse(props.lastUpdated)).toLocaleString()}
         </Typography>
       </CardContent>
       <CardActions>
@@ -104,12 +113,14 @@ export function PostCard(props: {
               </Button>
             }
             <Typography component="div" sx={{ flexGrow: 1 }} />
-            <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={() => props.deleteCallback(props.postId, props.title)}>
+            <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={() => props.deleteCallback ? props.deleteCallback(props.postId, props.title) : () => {}}>
               Delete
             </Button>
           </>
           : // Read full post
-          <Button size="small">Read</Button>
+          <Button variant="outlined" color="primary" startIcon={<MenuBookIcon />} onClick={() => navigate(`/post?postId=${props.postId}`)}>
+            Read
+          </Button>
         }
       </CardActions>
     </Card>

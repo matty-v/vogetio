@@ -8,6 +8,10 @@
   margin-right: 10px;
 }
 
+#v-logo:hover {
+  cursor: pointer;
+}
+
 .fa {
   text-decoration: none;
   padding-right: 20px;

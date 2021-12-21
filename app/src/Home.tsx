@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
+import { Post, fetchPublishedPosts } from './posts-service';
 import './Home.css';
-const SERVER_URL = process.env.SERVER_URL;
+import { PostCard } from './PostCard';
 
 export function Home() {
-  let [posts]: any = useState();
 
-  posts = [];
+  const [posts, setPosts] = useState([] as Post[]);
 
   useEffect(() => {
-    // fetch(`${SERVER_URL}/api/posts`, {
-    //   mode: 'cors',
-    //   headers: {
-    //     'Access-Control-Allow-Origin':'*'
-    //   }
-    // })
-    // .then((res) => res.json())
-    // .then((data) => {
-    //   console.log(data);
-    //   posts = data;
-    // })
-    // .catch((error) => {
-    //   console.error(error);
-    // });
-  });
+    fetchPublishedPosts().then((data: Post[]) => {
+      setPosts(data);
+    });
+  }, []);
 
   return (
     <>
@@ -50,15 +39,20 @@ export function Home() {
         </div>
       </div>
       <div className="row content-row">
-        <div className="col">
-        {/* {posts.map((post: any) => (
-          <div key={post.id}>
-            <li>{post.id}</li>
-            <li>{post.title}</li>
-            <li>{post.content}</li>
+        {posts && posts.map((post: Post) => (
+          <div className="PostCard" key={post.id}>
+            <PostCard
+              postId={post.id}
+              title={post.title}
+              content={post.content}
+              isPinned={post.pinned}
+              isPublished={post.published}
+              lastUpdated={post.updatedAt}
+              editMode={false}
+              user={null}
+            />
           </div>
-        ))} */}
-        </div>
+        ))}
       </div>
     </>
   );

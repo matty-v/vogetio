@@ -11,8 +11,7 @@ import { Home } from './Home';
 import { Login } from './Login';
 import { PostEditor } from './PostEditor';
 import { TopNav } from './TopNav';
-
-
+import { PostReader } from './PostReader';
 
 export function App() {
 
@@ -24,21 +23,22 @@ export function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <TopNav />
-      <main className="mdc-top-app-bar--fixed-adjust">
-        <div className="App">
-          <div className="container">
-            <Router>
+      <Router>
+        <TopNav />
+        <main className="mdc-top-app-bar--fixed-adjust">
+          <div className="App">
+            <div className="container">
               <Routes>
                 <Route path="/" element={<Home/>}/>
+                <Route path="/post" element={<PostReader/>}/>
                 <Route path="/admin-login" element={<Login/>}/>
                 <Route path="/blog-admin" element={<BlogAdmin/>}/>
                 <Route path="/post-editor" element={<PostEditor/>}/>
               </Routes>
-            </Router>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </Router>
     </ThemeProvider>
   )
 }

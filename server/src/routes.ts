@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import postController from './posts-controller';
+import postAdminController from './posts-admin-controller';
+import postPublicController from './posts-public-controller';
 
 const routes = Router();
 
-routes.use('/api/posts', postController);
+routes.use('/api/admin/posts', postAdminController);
+routes.use('/api/posts', postPublicController);
 
 export default routes;
