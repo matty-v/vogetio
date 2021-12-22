@@ -26,7 +26,7 @@ services:
     volumes:
       - ./db:/home/node/db
     working_dir: /home/node/db
-    command: /bin/sh -c "npm run migrate"
+    command: /bin/sh -c 'DATABASE_URL="postgresql://vogetio:vogetio@postgres:5432/vogetio?schema=public" npm run migrate'
     networks:
       - internal
 

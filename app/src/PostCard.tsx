@@ -66,7 +66,7 @@ export function PostCard(props: {
   };
 
   return (
-    <Card sx={{ maxWidth: 500, backgroundColor: '#3c3c3c' }}>
+    <Card sx={{ maxWidth: '90%', width: '600px', margin: '20px', backgroundColor: '#3c3c3c' }}>
       <CardContent>
         <Typography variant="h3" component="div" sx={{ color: 'white' }}>
           {props.title}

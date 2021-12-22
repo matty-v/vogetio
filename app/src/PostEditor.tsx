@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import './PostEditor.css';
 import { getUser } from './auth-service';
-import { createPost, deletePost, fetchPostById, Post, PostEdit, updatePost } from './posts-service';
+import { createPost, fetchPostById, Post, PostEdit, updatePost } from './posts-service';
 
 const styles = {
   root: {

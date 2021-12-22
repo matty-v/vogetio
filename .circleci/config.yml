@@ -16,6 +16,18 @@ commands:
             gcloud -q auth configure-docker
 
 jobs:
+  migrate-db:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - node/install
+      - run:
+          name: "Apply migrations to the database"
+          command: |
+            cd db
+            DB_URL=$DB_URL npm run migrate
+
   build-and-deploy-server:
     docker:
       - image: google/cloud-sdk
@@ -56,6 +68,11 @@ jobs:
 workflows:
   default:
     jobs:
+      - migrate-db:
+          filters:
+            branches:
+              only:
+                - master
       - build-and-deploy-server:
           filters:
             branches:

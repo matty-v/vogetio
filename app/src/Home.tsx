@@ -16,7 +16,7 @@ export function Home() {
 
   return (
     <>
-      <div className="row">
+      <div id="profile-row" className="row">
         <div id="profile-pic" className="col">
           <img src="assets/profile-pic.jpeg" alt="profile"/>
         </div>
@@ -38,20 +38,20 @@ export function Home() {
           </div>
         </div>
       </div>
-      <div className="row content-row">
+      <hr/>
+      <div className="row">
         {posts && posts.map((post: Post) => (
-          <div className="PostCard" key={post.id}>
-            <PostCard
-              postId={post.id}
-              title={post.title}
-              content={post.content}
-              isPinned={post.pinned}
-              isPublished={post.published}
-              lastUpdated={post.updatedAt}
-              editMode={false}
-              user={null}
-            />
-          </div>
+          <PostCard
+            key={post.id}
+            postId={post.id}
+            title={post.title}
+            content={post.content}
+            isPinned={post.pinned}
+            isPublished={post.published}
+            lastUpdated={post.updatedAt}
+            editMode={false}
+            user={null}
+          />
         ))}
       </div>
     </>

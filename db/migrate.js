@@ -2,8 +2,6 @@ const postgres = require('postgres');
 const path = require('path');
 const fs = require('fs');
 
-require('dotenv').config();
-
 const runMigrations = async (dbConnection) => {
 
   const sql = postgres(dbConnection, { onnotice: () => {}});
@@ -47,7 +45,6 @@ const runMigrations = async (dbConnection) => {
 
   sql.end({ timeout: null });
 };
-
 
 (async () => {
   try {

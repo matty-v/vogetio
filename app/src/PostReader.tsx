@@ -31,6 +31,9 @@ export function PostReader() {
           <Typography variant="h2" component="div" sx={{ color: 'white' }}>
             {post.title}
           </Typography>
+          <Typography component="div" sx={{ color: 'white', fontSize: 'small' }}>
+            {new Date(Date.parse(post.updatedAt)).toLocaleString()}
+          </Typography>
           <hr/>
           <div className="row">
             <div id="post-content">

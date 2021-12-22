@@ -15,8 +15,8 @@ export function TopNav() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar id="top-nav" position="fixed">
         <Toolbar>
-          <img id="v-logo" alt="voget.io" src="/assets/v-logo-white.png" onClick={() => navigate('/')} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <img id="v-logo" className="clickable" alt="voget.io" src="/assets/v-logo-white.png" onClick={() => navigate('/')}/>
+          <Typography variant="h6" component="div" className="clickable" sx={{ flexGrow: 1 }} onClick={() => navigate('/')}>
             voget.io
           </Typography>
           <Link href="https://github.com/matty-v"><span className="fa fa-github" /></Link>
