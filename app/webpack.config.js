@@ -3,11 +3,10 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = ({ isProd }) => {
+module.exports = ({ env }) => {
   return {
 
     target: 'web',
-    mode: isProd ? 'production' : 'development',
 
     entry: {
       index: './src/index.tsx',
@@ -53,12 +52,6 @@ module.exports = ({ isProd }) => {
       ],
     },
 
-    // resolve: {
-    //   fallback: {
-    //       buffer: require.resolve('buffer/'),
-    //   },
-    // },
-
     plugins: [
       new HtmlWebPackPlugin({
         template: "./src/index.html",
@@ -69,7 +62,7 @@ module.exports = ({ isProd }) => {
         ],
       }),
       new webpack.EnvironmentPlugin({
-        SERVER_URL: isProd ? 'https://vogetio-server-g56q77hy2a-uc.a.run.app' : 'http://localhost:3001'
+        SERVER_URL: (env === 'production') ? 'https://vogetio-server-g56q77hy2a-uc.a.run.app' : 'http://localhost:3001'
       }),
       new webpack.ProvidePlugin({
         Buffer: [require.resolve("buffer/"), "Buffer"],
