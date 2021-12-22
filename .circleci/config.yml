@@ -25,6 +25,7 @@ jobs:
       - run:
           name: "Apply migrations to the database"
           command: |
+            npm install
             cd db
             DB_URL=$DB_URL npm run migrate
 
