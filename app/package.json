@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-prod": "webpack --env production",
-    "build-dev": "webpack --env development",
+    "build-prod": "webpack --env isProd=true",
+    "build-dev": "webpack",
     "serve": "node server.js",
     "dev": "webpack && concurrently --names \"webpack,nodemon\" --prefix \"({name})\" --prefix-colors \"magenta.bold,white.bold\" \"webpack --watch\" \"nodemon server.js\""
   },
