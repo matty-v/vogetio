@@ -41,11 +41,13 @@ postAdminController.post('/', async (req: Request, res: Response) => {
 
   if (!req.body.title) return res.status(400).json({ message: 'Invalid request: Post is missing a title!' });
   if (!req.body.content) return res.status(400).json({ message: 'Invalid request: Post is missing content!' });
+  if (!req.body.caption) return res.status(400).json({ message: 'Invalid request: Post is missing a caption!' });
 
   const newPost = await prisma.post.create({
     data: {
       title: req.body.title,
       content: req.body.content,
+      caption: req.body.caption,
       author: {
         connect: {
           email: req['email']
@@ -61,19 +63,21 @@ postAdminController.post('/', async (req: Request, res: Response) => {
 postAdminController.put('/:id', async (req: Request, res: Response) => {
 
   const title = req.body.title || undefined;
+  const caption = req.body.caption || undefined;
   const content = req.body.content || undefined;
   const pinned = req.body.pinned || undefined;
   const published = req.body.published || undefined;
 
-  if (!title && !content && !pinned && !published) return res.status(400).send({ message: 'Invalid request: did not provide any data to update (title/content/pinned/published)' });
+  if (!title && !caption && !content && !pinned && !published) return res.status(400).send({ message: 'Invalid request: did not provide any data to update (title/caption/content/pinned/published)' });
 
   let updatedAt = undefined;
-  if (title || content) {
+  if (title || content || caption) {
     updatedAt = new Date();
   }
 
   const postDataToUpdate = {
     ...title && ({title}),
+    ...caption && ({caption}),
     ...content && ({content}),
     ...pinned && ({pinned}),
     ...published && ({published}),

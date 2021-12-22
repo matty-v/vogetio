@@ -12,6 +12,7 @@ DO $$
     CREATE TABLE "public"."Post" (
       id uuid UNIQUE NOT NULL DEFAULT uuid_generate_v4 (),
       title VARCHAR(255) NOT NULL,
+      caption VARCHAR(255) NOT NULL,
       "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
       "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
       content TEXT,

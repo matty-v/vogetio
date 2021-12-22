@@ -4,6 +4,7 @@ const SERVER_URL = process.env.SERVER_URL;
 
 export type PostEdit = {
   title?: string;
+  caption?: string;
   content?: string;
   pinned?: string;
   published?: string;
@@ -12,6 +13,7 @@ export type PostEdit = {
 export type Post = {
   id: string;
   title: string;
+  caption: string;
   content: string;
   createdAt: string;
   updatedAt: string;

@@ -11,6 +11,7 @@ datasource db {
 model Post {
   id        String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   title     String        @db.VarChar(255)
+  caption   String        @db.VarChar(255)
   createdAt DateTime      @default(now()) @db.Timestamp(6)
   updatedAt DateTime      @default(now()) @db.Timestamp(6)
   content   String

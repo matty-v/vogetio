@@ -72,7 +72,18 @@ export const PostEditor = withStyles(styles)(function(props: any) {
       <div className="row">
         <TextField label="Title"
           value={post.title}
-          onChange={e => setPost({ title: e.target.value, content: post.content } as PostEdit)}
+          onChange={e => setPost({ title: e.target.value, caption: post.caption, content: post.content } as PostEdit)}
+          id="outlined-basic"
+          variant="outlined"
+          classes={classes}
+          InputLabelProps={{ style: { color: 'white' } }}
+          sx={{ input: { color: 'white' } }}
+        />
+      </div>
+      <div className="row">
+        <TextField label="Caption"
+          value={post.caption}
+          onChange={e => setPost({ title: post.title, caption: e.target.value, content: post.content } as PostEdit)}
           id="outlined-basic"
           variant="outlined"
           classes={classes}
@@ -83,7 +94,7 @@ export const PostEditor = withStyles(styles)(function(props: any) {
       <div className="row">
         <TextField label="Content"
           value={post.content}
-          onChange={e => setPost({ title: post.title, content: e.target.value } as PostEdit)}
+          onChange={e => setPost({ title: post.title, caption: post.caption, content: e.target.value } as PostEdit)}
           id="outlined-basic"
           variant="outlined"
           classes={classes}

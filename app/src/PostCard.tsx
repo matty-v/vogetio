@@ -12,9 +12,6 @@ import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { useNavigate } from "react-router-dom";
 
-import ReactHtmlParser from 'react-html-parser';
-const showdown  = require('showdown');
-
 import './PostCard.css';
 import { User } from './auth-service';
 import { updatePost, Post } from './posts-service';
@@ -22,6 +19,7 @@ import { updatePost, Post } from './posts-service';
 export function PostCard(props: {
   postId: string;
   title: string;
+  caption: string;
   content: string,
   isPinned: string,
   isPublished: string,
@@ -30,8 +28,6 @@ export function PostCard(props: {
   deleteCallback?: (postId: string, title: string) => void,
   user: User | null
 }) {
-
-  const converter = new showdown.Converter();
 
   const navigate = useNavigate();
 
@@ -71,14 +67,8 @@ export function PostCard(props: {
         <Typography variant="h3" component="div" sx={{ color: 'white' }}>
           {props.title}
         </Typography>
-        <hr/>
-        <Typography component="div" sx={{ mb: 1.5, color: '#bbbbbb', minHeight: 100, maxHeight: 100, overflow: 'hidden' }} color="text.secondary">
-          <div id={`content-preview-${props.postId}`}>
-            { ReactHtmlParser(converter.makeHtml(props.content)) }
-          </div>
-        </Typography>
-        <Typography component="div" sx={{ color: '#8f8d8d', fontSize: 'large', marginLeft: '10px' }}>
-          ...
+        <Typography component="div" sx={{ mb: 1.5, color: '#bbbbbb', fontSize: 'larger', marginTop: '10px'}}>
+          {props.caption}
         </Typography>
         <hr/>
         <Typography component="div" sx={{ color: 'white', fontSize: 'small' }}>

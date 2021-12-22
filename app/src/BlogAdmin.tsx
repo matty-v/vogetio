@@ -61,6 +61,7 @@ export function BlogAdmin() {
               key={post.id}
               postId={post.id}
               title={post.title}
+              caption={post.caption}
               content={post.content}
               isPinned={post.pinned}
               isPublished={post.published}
