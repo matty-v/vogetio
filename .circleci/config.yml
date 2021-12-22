@@ -27,7 +27,7 @@ jobs:
           command: |
             cd db
             npm install
-            DB_URL=$DB_URL npm run migrate
+            DATABASE_URL=$DB_URL npm run migrate
 
   build-and-deploy-server:
     docker:
