@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { fetchPublishedPostById, Post } from './posts-service';
 
 const showdown  = require('showdown');
+const showdownHighlight = require("showdown-highlight")
 
 export function PostReader() {
 
@@ -15,7 +16,13 @@ export function PostReader() {
   const search = useLocation().search;
   const postId = new URLSearchParams(search).get('postId') || '';
 
-  const converter = new showdown.Converter();
+  const converter = new showdown.Converter({
+    extensions: [
+      showdownHighlight({
+        pre: true
+      })
+    ]
+  });
 
   useEffect(() => {
     fetchPublishedPostById(postId || '').then((p: Post) => {

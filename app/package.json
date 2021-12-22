@@ -26,6 +26,7 @@
     "react-html-parser": "^2.0.2",
     "react-router-dom": "^6.1.1",
     "showdown": "^1.9.1",
+    "showdown-highlight": "^2.1.8",
     "typescript": "^4.5.4"
   },
   "devDependencies": {
