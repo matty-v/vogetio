@@ -19,5 +19,6 @@ app.get("/", async (_: Request, res: Response) => {
 app.use(routes);
 
 app.listen(PORT, () => {
+  console.log(`Using DB connection: ${process.env.DATABASE_URL}`);
   console.log(`vogetio server is listening on port ${PORT}...`);
 });

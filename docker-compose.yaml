@@ -52,7 +52,7 @@ services:
     ports:
       - 3001:3001
     environment:
-      DATABASE_URL: "postgresql://vogetio:vogetio@vogetio-db:5432/vogetio?schema=public"
+      DATABASE_URL: "postgresql://vogetio:vogetio@postgres:5432/vogetio?schema=public"
     networks:
       - internal
 
