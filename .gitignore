@@ -8,6 +8,7 @@
 # production
 /app/dist
 /server/dist
+/db/.env
 
 # debug
 /app/npm-debug.log*

@@ -12,23 +12,33 @@ DO $$
     CREATE TABLE "public"."Post" (
       id uuid UNIQUE NOT NULL DEFAULT uuid_generate_v4 (),
       title VARCHAR(255) NOT NULL,
+      caption VARCHAR(255) NOT NULL,
       "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
+      "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
       content TEXT,
       published BOOLEAN NOT NULL DEFAULT false,
+      pinned BOOLEAN NOT NULL DEFAULT false,
       "authorId" uuid NOT NULL,
       FOREIGN KEY ("authorId") REFERENCES "public"."User"(id),
       PRIMARY KEY (id)
     );
 
-    CREATE TABLE "public"."Profile" (
+    CREATE TABLE "public"."Tag" (
       id uuid UNIQUE NOT NULL DEFAULT uuid_generate_v4 (),
-      bio TEXT,
-      "userId" uuid UNIQUE NOT NULL,
-      FOREIGN KEY ("userId") REFERENCES "public"."User"(id),
+      name VARCHAR(255),
       PRIMARY KEY (id)
     );
 
-    -- Seed some data
+    CREATE TABLE "public"."TagsOnPosts" (
+      "tagId" uuid NOT NULL,
+      "postId" uuid NOT NULL,
+      "assignedAt" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY ("tagId")  REFERENCES "public"."Tag"(id),
+      FOREIGN KEY ("postId") REFERENCES "public"."Post"(id)
+    );
+    CREATE UNIQUE INDEX "TagsOnPosts_tag_post_unique" ON "public"."TagsOnPosts" USING btree("tagId", "postId");
+
+    -- Seed the first (and for now only) user
     insert into "public"."User"(name,email) values ('Matt','matt.voget@gmail.com');
 
   END

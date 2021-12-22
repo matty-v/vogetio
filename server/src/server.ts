@@ -1,27 +1,23 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client'
+import morgan from 'morgan';
 
-const prisma = new PrismaClient()
+import routes from './routes';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(morgan('tiny'));
 
-app.get("/", async (req: Request, res: Response) => {
+app.get("/", async (_: Request, res: Response) => {
   res.json({ health: "OK" });
 });
 
-app.get("/api", async (req: Request, res: Response) => {
-  res.json({ message: "Hello, this is the api server!" });
-});
-
-app.get("/api/users", async (req: Request, res: Response) => {
-  const allUsers = await prisma.user.findMany();
-  res.json(allUsers);
-});
+app.use(routes);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+  console.log(`vogetio server is listening on port ${PORT}...`);
 });

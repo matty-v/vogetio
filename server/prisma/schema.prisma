@@ -9,26 +9,37 @@ datasource db {
 }
 
 model Post {
-  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  title     String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  content   String?
-  published Boolean  @default(false)
-  authorId  String   @db.Uuid
-  author    User     @relation(fields: [authorId], references: [id])
+  id        String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title     String        @db.VarChar(255)
+  caption   String        @db.VarChar(255)
+  createdAt DateTime      @default(now()) @db.Timestamp(6)
+  updatedAt DateTime      @default(now()) @db.Timestamp(6)
+  content   String
+  published Boolean       @default(false)
+  pinned    Boolean       @default(false)
+  authorId  String        @db.Uuid
+  author    User          @relation(fields: [authorId], references: [id])
+  tags      TagsOnPosts[]
 }
 
-model Profile {
-  id     String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  bio    String?
-  userId String  @unique @db.Uuid
-  user   User    @relation(fields: [userId], references: [id])
+model Tag {
+  id    String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name  String        @db.VarChar(255)
+  posts TagsOnPosts[]
+}
+
+model TagsOnPosts {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     String   @db.Uuid
+  tag        Tag      @relation(fields: [tagId], references: [id])
+  tagId      String   @db.Uuid
+  assignedAt DateTime @default(now())
 }
 
 model User {
-  id      String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name    String?  @db.VarChar(255)
-  email   String   @unique @db.VarChar(255)
-  posts   Post[]
-  profile Profile?
+  id    String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name  String? @db.VarChar(255)
+  email String  @unique @db.VarChar(255)
+  posts Post[]
 }

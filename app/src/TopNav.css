@@ -1,0 +1,25 @@
+#top-nav {
+  background-color: #141414;
+}
+
+#v-logo {
+  height: 32px;
+  width: 32px;
+  margin-right: 10px;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}
+
+.fa {
+  text-decoration: none;
+  padding-right: 20px;
+  padding-left: 2px;
+  font-size: 32px;
+  color: white;
+}
+
+.fa:hover {
+  opacity: 75%;
+}

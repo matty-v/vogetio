@@ -3,20 +3,23 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-
-module.exports = ({ isDev }) => {
+module.exports = ({ isProd }) => {
   return {
 
     target: 'web',
-    mode: isDev ? 'development' : 'production',
+    mode: isProd ? 'production' : 'development',
 
     entry: {
-      index: './src/index.js',
+      index: './src/index.tsx',
     },
     devtool: 'inline-source-map',
     devServer: {
       static: './dist',
       port: 3000,
+    },
+
+    resolve: {
+      extensions: [".tsx", ".ts", ".js"],
     },
 
     performance: {
@@ -26,28 +29,36 @@ module.exports = ({ isDev }) => {
     },
 
     output: { path: path.resolve(__dirname, "dist") },
+
     module: {
       rules: [
         {
-          test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: "babel-loader",
-            options: {
-              presets: ["@babel/preset-env", "@babel/preset-react"],
-            },
-          },
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: ["babel-loader"],
         },
         {
-          test: /\.svg$/,
-          loader: 'svg-inline-loader'
+            test: /\.(ts|tsx)$/,
+            exclude: /node_modules/,
+            use: ["ts-loader"],
         },
         {
-          test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
+            test: /\.(css|scss)$/,
+            use: ["style-loader", "css-loader"],
+        },
+        {
+            test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
+            use: ["file-loader"],
         },
       ],
     },
+
+    // resolve: {
+    //   fallback: {
+    //       buffer: require.resolve('buffer/'),
+    //   },
+    // },
+
     plugins: [
       new HtmlWebPackPlugin({
         template: "./src/index.html",
@@ -58,8 +69,11 @@ module.exports = ({ isDev }) => {
         ],
       }),
       new webpack.EnvironmentPlugin({
-        SERVER_URL: isDev ? 'http://localhost:3001' : 'https://vogetio-server-g56q77hy2a-uc.a.run.app'
-      })
+        SERVER_URL: isProd ? 'https://vogetio-server-g56q77hy2a-uc.a.run.app' : 'http://localhost:3001'
+      }),
+      new webpack.ProvidePlugin({
+        Buffer: [require.resolve("buffer/"), "Buffer"],
+      }),
     ]
   };
 };
