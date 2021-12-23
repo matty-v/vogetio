@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = ({ isProd }) => {
+module.exports = ({ isProd, serverUrl }) => {
   return {
 
     target: 'web',
@@ -64,7 +64,7 @@ module.exports = ({ isProd }) => {
         ],
       }),
       new webpack.EnvironmentPlugin({
-        SERVER_URL: isProd ? 'https://vogetio-server-g56q77hy2a-uc.a.run.app' : 'http://localhost:3001'
+        SERVER_URL: serverUrl ?? 'http://localhost:3001'
       }),
       new webpack.ProvidePlugin({
         Buffer: [require.resolve("buffer/"), "Buffer"],

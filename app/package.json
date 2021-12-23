@@ -1,10 +1,10 @@
 {
   "name": "vogetio-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Single page web application for voget.io",
   "main": "index.js",
   "scripts": {
-    "build-prod": "webpack --env isProd=true",
+    "build-prod": "webpack --env isProd=true --env serverUrl=",
     "build-dev": "webpack",
     "serve": "node server.js",
     "dev": "webpack && concurrently --names \"webpack,nodemon\" --prefix \"({name})\" --prefix-colors \"magenta.bold,white.bold\" \"webpack --watch\" \"nodemon server.js\""

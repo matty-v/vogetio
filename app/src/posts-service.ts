@@ -150,7 +150,6 @@ export const updatePost = (user: User | null, postId: string, post: PostEdit): P
     return res.json();
   })
   .then((data) => {
-    console.log(data);
     return data;
   })
   .catch((error) => {
@@ -172,7 +171,6 @@ export const deletePost = (user: User | null, postId: string): Promise<Post> => 
     return res.json();
   })
   .then((data) => {
-    console.log(data);
     return data;
   })
   .catch((error) => {
