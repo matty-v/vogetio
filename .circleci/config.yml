@@ -91,28 +91,17 @@ jobs:
 workflows:
   default:
     jobs:
-      - check-for-changes:
-          filters:
-            branches:
-              only:
-                - master
       - migrate-db:
-          requires:
-            - check-for-changes
           filters:
             branches:
               only:
                 - master
       - build-and-deploy-server:
-          requires:
-            - check-for-changes
           filters:
             branches:
               only:
                 - master
       - build-and-deploy-app:
-          requires:
-            - check-for-changes
           filters:
             branches:
               only:
