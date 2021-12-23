@@ -28,7 +28,7 @@ commands:
             changes=$(git diff --name-only HEAD^ HEAD | sed -n /<<parameters.component>>/p | wc -l | xargs)
             if [ "$changes" = "0" ]; then
               echo "Detected no changes to the <<parameters.component>> code"
-              exit 0
+              circleci-agent step halt
             fi
 
 jobs:
