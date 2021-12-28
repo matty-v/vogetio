@@ -44,6 +44,7 @@ export const PostEditor = withStyles(styles)(function(props: any) {
     ]
   });
 
+  const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState(Date.now);
   const [inPreview, setInPreview] = useState(false);
   const [user] = useState(getUser());
@@ -65,7 +66,10 @@ export const PostEditor = withStyles(styles)(function(props: any) {
   }, []);
 
   useEffect(() => {
-    if (post.title !== '' && (Date.now() - lastSaved) > 10000 ) {
+    if (post.title !== '' && ((Date.now() - lastSaved) > 10000) && !isSaving) {
+
+      setIsSaving(true);
+
       updatePost(user, postId, post)
       .then((updatedPost: Post) => {
         if (!updatedPost.id) {
@@ -73,6 +77,7 @@ export const PostEditor = withStyles(styles)(function(props: any) {
         }
         console.log(`Post was auto-saved at ${(new Date()).toLocaleTimeString()}`);
         setLastSaved(Date.now());
+        setIsSaving(false);
       });
     }
   }, [post]);

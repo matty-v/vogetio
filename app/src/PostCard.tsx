@@ -42,7 +42,6 @@ export function PostCard(props: {
   const togglePin = () => {
     updatePost(props.user, props.postId, { pinned: isPinned ? 'false' : 'true' })
     .then((updatedPost: Post) => {
-      console.log(`Updated Post: ${JSON.stringify(updatedPost)}`);
       setIsPinned(updatedPost.pinned);
     })
   };
@@ -56,7 +55,6 @@ export function PostCard(props: {
 
     updatePost(props.user, props.postId, { published: isPublished ? 'false' : 'true' })
     .then((updatedPost: Post) => {
-      console.log(`Updated Post: ${JSON.stringify(updatedPost)}`);
       setIsPublished(updatedPost.published);
     })
   };
