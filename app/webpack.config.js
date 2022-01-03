@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = ({ isProd, serverUrl }) => {
@@ -13,11 +13,8 @@ module.exports = ({ isProd, serverUrl }) => {
     entry: {
       index: './src/index.tsx',
     },
+
     devtool: 'inline-source-map',
-    devServer: {
-      static: './dist',
-      port: 3000,
-    },
 
     resolve: {
       extensions: [".tsx", ".ts", ".js"],
@@ -33,11 +30,6 @@ module.exports = ({ isProd, serverUrl }) => {
 
     module: {
       rules: [
-        {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            use: ["babel-loader"],
-        },
         {
             test: /\.(ts|tsx)$/,
             exclude: /node_modules/,
