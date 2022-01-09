@@ -5,6 +5,7 @@ import ReactHtmlParser from 'react-html-parser';
 import Typography from '@mui/material/Typography';
 
 import { fetchPublishedPostById, Post } from './posts-service';
+import './PostReader.css';
 
 const showdown  = require('showdown');
 const showdownHighlight = require("showdown-highlight")
