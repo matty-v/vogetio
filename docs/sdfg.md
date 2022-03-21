@@ -3,9 +3,5 @@
 The beginning of an awesome article...
 
 sdfgsdfgdfgs
-s
-adf
-as
-df
-
+ df
 dsaf
