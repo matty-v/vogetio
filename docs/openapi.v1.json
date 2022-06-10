@@ -1,6 +1,10 @@
 {
   "openapi": "3.1.0",
   "info": {
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
     "title": "openapi.v1",
     "version": "1.0",
     "summary": "The API for voget.io",
@@ -21,7 +25,6 @@
       "parameters": [],
       "get": {
         "summary": "Health Check",
-        "tags": [],
         "operationId": "health-check",
         "description": "Check the health of the API",
         "responses": {
