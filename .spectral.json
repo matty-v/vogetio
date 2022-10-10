@@ -560,7 +560,7 @@
         "field": "url"
       },
       "description": "Contact object should have \"url\"",
-      "message": "Contact object should have \"url\""
+      "message": "Contact object should have \"url\"."
     },
     "contact-email": {
       "given": [
