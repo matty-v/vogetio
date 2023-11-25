@@ -82,7 +82,6 @@ jobs:
 
             # Webpack build
             npm install webpack@5.64.4 -g
-            npm ci --silent
             npm run build-prod $SERVER_URL
 
             # Upload to bucket
