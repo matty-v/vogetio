@@ -48,6 +48,7 @@ jobs:
 
             # Webpack build
             npm install webpack@5.64.4 -g
+            echo $BLOG_SERVICE_URL
             export BLOG_SERVICE_URL=$BLOG_SERVICE_URL && webpack
 
             # Upload to bucket
