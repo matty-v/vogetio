@@ -48,8 +48,8 @@ jobs:
 
             # Webpack build
             npm install webpack@5.64.4 -g
-            echo $BLOG_SERVICE_URL
-            export BLOG_SERVICE_URL=$BLOG_SERVICE_URL && webpack
+            npm ci --silent
+            BLOG_SERVICE_URL=$BLOG_SERVICE_URL && npm run webpack
 
             # Upload to bucket
             gsutil cp -r dist/* gs://vogetio-app/
