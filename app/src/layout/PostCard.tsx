@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -32,7 +31,7 @@ export function PostCard(props: {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="outlined" color="primary" startIcon={<MenuBookIcon />} onClick={() => navigate(`/post?postId=${props.postId}`)}>
+        <Button variant="outlined" color="primary" startIcon={<MenuBookIcon />} onClick={() => navigate(`/post/${props.postId}`)}>
           Read
         </Button>
       </CardActions>

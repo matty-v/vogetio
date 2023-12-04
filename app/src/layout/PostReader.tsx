@@ -1,23 +1,21 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
+import HTMLReactParser from 'html-react-parser';
 import Typography from '@mui/material/Typography';
+import { fetchPostById, fetchPostContent } from '../utils/posts-service';
+import { LoaderPayload, Post } from '../types';
+import Loader from '../common/Loader';
+import { Events, broadcast } from '../utils/broadcaster';
 
 import './PostReader.css';
-import { fetchPostById, fetchPostContent } from './posts-service';
-import HTMLReactParser from 'html-react-parser';
-import { LoaderPayload, Post } from './types';
-import Loader from './Loader';
-import { Events, broadcast } from './broadcaster';
 
 const showdown  = require('showdown');
 
 export function PostReader() {
 
   const [post, setPost] = useState({} as Post);
-
-  const search = useLocation().search;
-  const postId = new URLSearchParams(search).get('postId') || '';
+  const { id } = useParams();
+  const postId = id ?? '';
 
   const converter = new showdown.Converter();
 
@@ -63,9 +61,7 @@ export function PostReader() {
           </div>
         </>
         :
-        <>
-
-        </>
+        <></>
       }
       <Loader/>
     </>

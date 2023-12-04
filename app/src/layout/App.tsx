@@ -2,6 +2,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  HashRouter,
 } from 'react-router-dom';
 import { ThemeProvider, createTheme, PaletteMode } from '@mui/material';
 
@@ -34,19 +35,19 @@ export function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
+      <HashRouter>
         <TopNav />
         <main className="mdc-top-app-bar--fixed-adjust">
           <div className="App">
             <div className="container">
               <Routes>
                 <Route path="/" element={<Home />}/>
-                <Route path="/post" element={<PostReader />}/>
+                <Route path="/post/:id" element={<PostReader />}/>
               </Routes>
             </div>
           </div>
         </main>
-      </Router>
+      </HashRouter>
     </ThemeProvider>
   )
 }

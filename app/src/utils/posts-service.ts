@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Post } from "./types";
+import { Post } from "../types";
 
 const SERVER_URL = process.env.BLOG_SERVICE_URL ?? '';
 

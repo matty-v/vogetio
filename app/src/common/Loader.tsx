@@ -1,7 +1,7 @@
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState } from 'react';
-import { LoaderPayload } from './types';
-import { Events, on } from './broadcaster';
+import { LoaderPayload } from '../types';
+import { Events, on } from '../utils/broadcaster';
 
 type LoaderVariant = 'indeterminate' | 'determinate' | undefined;
 

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import { fetchPublishedPosts } from './posts-service';
+import { fetchPublishedPosts } from '../utils/posts-service';
 import './Home.css';
 import { PostCard } from './PostCard';
-import { Post } from './types';
+import { Post } from '../types';
 
 export function Home() {
 
