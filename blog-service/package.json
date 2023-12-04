@@ -1,0 +1,35 @@
+{
+  "name": "notion-blog-service",
+  "version": "1.0.0",
+  "description": "Service for getting blog posts from a Notion DB",
+  "main": "dist/blog-service.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "jest --silent",
+    "cf-dev": "npm run build && npx @google-cloud/functions-framework --target=blogService",
+    "cf-dev-windows": "(for /F \"tokens=*\" %i in (.env) do set %i) && npm run cf-dev",
+    "deploy-cloud-function-linux": "./deploy-cloud-function.sh",
+    "deploy-cloud-function-windows": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./deploy-cloud-function.ps1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "ts-notion-client": "1.0.6"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-typescript": "^7.22.5",
+    "@google-cloud/functions-framework": "^3.3.0",
+    "@jest/globals": "^29.6.1",
+    "@types/cors": "^2.8.12",
+    "@types/node": "^16.18.39",
+    "nodemon": "^1.14.9",
+    "prettier-plugin-organize-imports": "^2.3.4",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5"
+  }
+}

@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 
-import { Post, fetchPublishedPosts } from './posts-service';
+import { fetchPublishedPosts } from './posts-service';
 import './Home.css';
 import { PostCard } from './PostCard';
+import { Post } from './types';
 
 export function Home() {
 
-  // const [posts, setPosts] = useState([] as Post[]);
+  const [posts, setPosts] = useState([] as Post[]);
 
-  // useEffect(() => {
-  //   fetchPublishedPosts().then((data: Post[]) => {
-  //     setPosts(data);
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetchPublishedPosts().then((data: Post[]) => {
+      setPosts(data);
+    });
+  }, []);
 
   return (
     <>
@@ -38,23 +39,18 @@ export function Home() {
           </div>
         </div>
       </div>
-      {/* <hr/> */}
-      {/* <div className="row">
+      <hr/>
+      <div className="row">
         {posts && posts.map((post: Post) => (
           <PostCard
             key={post.id}
             postId={post.id}
             title={post.title}
             caption={post.caption}
-            content={post.content}
-            isPinned={post.pinned}
-            isPublished={post.published}
             lastUpdated={post.updatedAt}
-            editMode={false}
-            user={null}
           />
         ))}
-      </div> */}
+      </div>
     </>
   );
 

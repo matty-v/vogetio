@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
-import ReactHtmlParser from 'react-html-parser';
 
 import Typography from '@mui/material/Typography';
 
-import { fetchPublishedPostById, Post } from './posts-service';
 import './PostReader.css';
+import { fetchPostById, fetchPostContent } from './posts-service';
+import HTMLReactParser from 'html-react-parser';
+import { LoaderPayload, Post } from './types';
+import Loader from './Loader';
+import { Events, broadcast } from './broadcaster';
 
 const showdown  = require('showdown');
-const showdownHighlight = require("showdown-highlight")
 
 export function PostReader() {
 
@@ -17,24 +19,35 @@ export function PostReader() {
   const search = useLocation().search;
   const postId = new URLSearchParams(search).get('postId') || '';
 
-  const converter = new showdown.Converter({
-    extensions: [
-      showdownHighlight({
-        pre: true
-      })
-    ]
-  });
+  const converter = new showdown.Converter();
+
+  const convertToReactComponents = (markdown: string) => {
+    return HTMLReactParser(converter.makeHtml(markdown));
+  }
 
   useEffect(() => {
-    fetchPublishedPostById(postId || '').then((p: Post) => {
-      setPost(p);
+    broadcast<LoaderPayload>(Events.UpdateLoader, { Enabled: true });
+    fetchPostById(postId).then((p: Post) => {
+      fetchPostContent(postId).then((content: string) => {
+        const currentPost: Post = {
+          id: p.id,
+          caption: p.caption,
+          createdAt: p.createdAt,
+          pinned: p.pinned,
+          published: p.published,
+          title: p.title,
+          updatedAt: p.updatedAt,
+          content
+        }
+        setPost(currentPost);
+        broadcast<LoaderPayload>(Events.UpdateLoader, { Enabled: false });
+      });
     });
   }, []);
 
   return (
     <>
-      { post['id']
-        ? // Post exists
+      { post.content?.length > 0 ?
         <>
           <Typography variant="h2" component="div" sx={{ color: 'white' }}>
             {post.title}
@@ -45,13 +58,16 @@ export function PostReader() {
           <hr/>
           <div className="row">
             <div id="post-content">
-              { ReactHtmlParser(converter.makeHtml(post.content)) }
+              { post.content ? convertToReactComponents(post.content) : '' }
             </div>
           </div>
         </>
-        : // Post does not exist
-        <></>
+        :
+        <>
+
+        </>
       }
+      <Loader/>
     </>
   )
 };

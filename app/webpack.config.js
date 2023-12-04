@@ -3,12 +3,12 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = ({ isProd, serverUrl }) => {
+module.exports = () => {
   return {
 
     target: 'web',
 
-    mode: isProd ? 'production' : 'development',
+    mode: 'production',
 
     entry: {
       index: './src/index.tsx',
@@ -55,9 +55,7 @@ module.exports = ({ isProd, serverUrl }) => {
           { from: "assets", to: "assets" }
         ],
       }),
-      new webpack.EnvironmentPlugin({
-        SERVER_URL: serverUrl ?? 'http://localhost:3001'
-      }),
+      new webpack.EnvironmentPlugin(['BLOG_SERVICE_URL']),
       new webpack.ProvidePlugin({
         Buffer: [require.resolve("buffer/"), "Buffer"],
       }),

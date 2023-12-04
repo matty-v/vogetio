@@ -1,188 +1,59 @@
-import { User } from "./auth-service";
+import axios from "axios";
+import { Post } from "./types";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.BLOG_SERVICE_URL ?? '';
 
-export type PostEdit = {
-  title?: string;
-  caption?: string;
-  content?: string;
-  pinned?: string;
-  published?: string;
-}
+export const fetchPublishedPosts = async (): Promise<Post[]> => {
 
-export type Post = {
-  id: string;
-  title: string;
-  caption: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  pinned: string;
-  published: string;
-}
+  let posts: Post[] = [];
 
-export const fetchPublishedPosts = (): Promise<Post[]> => {
-  return fetch(`${SERVER_URL}/api/posts`, {
-    method: 'GET',
-    mode: 'cors'
-  })
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error(error);
-    return [];
-  });
-}
-
-export const fetchPublishedAndPinnedPosts = (): Promise<Post[]> => {
-  return fetch(`${SERVER_URL}/api/posts/pinned`, {
-    method: 'GET',
-    mode: 'cors'
-  })
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error(error);
-    return [];
-  });
-}
-
-export const fetchPublishedPostById = (postId: string): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/posts/${postId}`, {
-    method: 'GET',
-    mode: 'cors'
-  })
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error(error);
-    return null;
-  });
-}
-
-export const fetchPosts = (user: User | null): Promise<Post[]> => {
-  return fetch(`${SERVER_URL}/api/admin/posts`, {
-    method: 'GET',
-    mode: 'cors',
-    headers: buildHeaders(user)
-  })
-  .then((res) => {
-    if (res.status >= 400 && res.status < 600) {
-      return [];
-    }
-    return res.json();
-  })
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error(error);
-    return [];
-  });
-}
-
-export const fetchPostById = (user: User | null, postId: string): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/admin/posts/${postId}`, {
-    method: 'GET',
-    mode: 'cors',
-    headers: buildHeaders(user)
-  })
-  .then((res) => {
-    if (res.status >= 400 && res.status < 600) {
-      return {} as any;
-    }
-    return res.json();
-  })
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error(error);
-    return {} as any;
-  });
-}
-
-export const createPost = (user: User | null, post: PostEdit): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/admin/posts`, {
-    method: 'POST',
-    mode: 'cors',
-    headers: buildHeaders(user),
-    body: JSON.stringify(post)
-  })
-  .then((res) => {
-    if (res.status >= 400 && res.status < 600) {
-      return {} as any;
-    }
-    return res.json();
-  })
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error(error);
-    return {} as any;
-  });
-}
-
-export const updatePost = (user: User | null, postId: string, post: PostEdit): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/admin/posts/${postId}`, {
-    method: 'PUT',
-    mode: 'cors',
-    headers: buildHeaders(user),
-    body: JSON.stringify(post)
-  })
-  .then((res) => {
-    if (res.status >= 400 && res.status < 600) {
-      return {} as any;
-    }
-    return res.json();
-  })
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error(error);
-    return {} as any;
-  });
-}
-
-export const deletePost = (user: User | null, postId: string): Promise<Post> => {
-  return fetch(`${SERVER_URL}/api/admin/posts/${postId}`, {
-    method: 'DELETE',
-    mode: 'cors',
-    headers: buildHeaders(user)
-  })
-  .then((res) => {
-    if (res.status >= 400 && res.status < 600) {
-      return {} as any;
-    }
-    return res.json();
-  })
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error(error);
-    return {} as any;
-  });
-}
-
-const buildHeaders = (user: User | null): HeadersInit => {
-  return {
-    'Access-Control-Allow-Origin':'*',
-    'Content-Type': 'application/json',
-    'x-id-token': user?.token.idToken || ''
+  try {
+    const response = await axios({
+      url: SERVER_URL,
+      method: 'get'
+    });
+    posts = response.data;
+  } catch (e) {
+    console.log(`Failed to fetch posts!`);
+    console.error(e);
   }
+
+  return posts;
+
+}
+
+export const fetchPostById = async (postId: string): Promise<Post> => {
+
+  let post;
+
+  try {
+    const response = await axios({
+      url: `${SERVER_URL}/${postId}`,
+      method: 'get'
+    });
+    post = response.data;
+  } catch (e) {
+    console.log(`Failed to fetch post with ID [${postId}]!`);
+    console.error(e);
+  }
+
+  return post;
+}
+
+export const fetchPostContent = async (postId: string): Promise<string> => {
+
+  let content;
+
+  try {
+    const response = await axios({
+      url: `${SERVER_URL}/${postId}/content`,
+      method: 'get'
+    });
+    content = response.data.content;
+  } catch (e) {
+    console.log(`Failed to fetch post content with ID [${postId}]!`);
+    console.error(e);
+  }
+
+  return content;
 }

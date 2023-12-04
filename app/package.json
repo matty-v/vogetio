@@ -4,8 +4,9 @@
   "description": "Single page web application for voget.io",
   "main": "index.js",
   "scripts": {
-    "build-prod": "webpack --env isProd=true --env serverUrl=",
-    "dev": "webpack && concurrently --names \"webpack,nodemon\" --prefix \"({name})\" --prefix-colors \"magenta.bold,white.bold\" \"webpack --watch\" \"nodemon server.js\""
+    "build-prod": "webpack --env",
+    "dev": "webpack && concurrently --names \"webpack,nodemon\" --prefix \"({name})\" --prefix-colors \"magenta.bold,white.bold\" \"webpack --watch\" \"nodemon server.js\"",
+    "dev-windows": "(for /F \"tokens=*\" %i in (.env) do set %i) && npm run dev"
   },
   "keywords": [],
   "author": "",
@@ -17,12 +18,13 @@
     "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.2.4",
     "@mui/styles": "^5.2.3",
+    "axios": "^1.6.2",
     "express": "^4.17.1",
+    "html-react-parser": "^5.0.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-google-login": "^5.2.2",
-    "react-html-parser": "^2.0.2",
     "react-router-dom": "^6.1.1",
+    "rxjs": "^7.5.5",
     "showdown": "^1.9.1",
     "showdown-highlight": "^2.1.8",
     "typescript": "^4.5.4"
@@ -34,7 +36,6 @@
     "@babel/preset-typescript": "^7.16.5",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
-    "@types/react-html-parser": "^2.0.2",
     "babel-loader": "^8.2.3",
     "buffer": "^6.0.3",
     "concurrently": "^5.1.0",

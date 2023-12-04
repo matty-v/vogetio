@@ -6,10 +6,7 @@ import {
 import { ThemeProvider, createTheme, PaletteMode } from '@mui/material';
 
 import './App.css';
-import { BlogAdmin } from './BlogAdmin';
 import { Home } from './Home';
-import { Login } from './Login';
-import { PostEditor } from './PostEditor';
 import { TopNav } from './TopNav';
 import { PostReader } from './PostReader';
 
@@ -43,11 +40,8 @@ export function App() {
           <div className="App">
             <div className="container">
               <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/post" element={<PostReader/>}/>
-                <Route path="/admin-login" element={<Login/>}/>
-                <Route path="/blog-admin" element={<BlogAdmin/>}/>
-                <Route path="/post-editor" element={<PostEditor/>}/>
+                <Route path="/" element={<Home />}/>
+                <Route path="/post" element={<PostReader />}/>
               </Routes>
             </div>
           </div>

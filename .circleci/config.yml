@@ -32,40 +32,6 @@ commands:
             fi
 
 jobs:
-  migrate-db:
-    docker:
-      - image: "cimg/base:stable"
-    steps:
-      - checkout
-      - check-for-changes:
-          component: db
-      - node/install
-      - run:
-          name: "Apply migrations to the database"
-          command: |
-            cd db
-            npm install
-            DATABASE_URL=$DB_URL npm run migrate
-
-  build-and-deploy-server:
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - check-for-changes:
-          component: server
-      - setup_remote_docker
-      - gcloud-auth
-      - run:
-          name: "Build and Deploy vogetio-server"
-          command: |
-            GIT_COMMIT="$(git rev-parse --short HEAD)"
-            cd server
-            docker build -t gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT -f Dockerfile .
-            docker push gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT
-
-            gcloud run deploy vogetio-server --image=gcr.io/kinetic-object-322814/vogetio-server:$GIT_COMMIT --project=kinetic-object-322814 --region=us-central1
-
   build-and-deploy-app:
     docker:
       - image: google/cloud-sdk
@@ -82,7 +48,7 @@ jobs:
 
             # Webpack build
             npm install webpack@5.64.4 -g
-            npm run build-prod $SERVER_URL
+            BLOG_SERVICE_URL=$BLOG_SERVICE_URL npm run build-prod
 
             # Upload to bucket
             gsutil cp -r dist/* gs://vogetio-app/
@@ -90,16 +56,6 @@ jobs:
 workflows:
   default:
     jobs:
-      - migrate-db:
-          filters:
-            branches:
-              only:
-                - master
-      - build-and-deploy-server:
-          filters:
-            branches:
-              only:
-                - master
       - build-and-deploy-app:
           filters:
             branches:

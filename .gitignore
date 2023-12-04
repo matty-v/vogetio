@@ -2,15 +2,14 @@
 
 # dependencies
 /app/node_modules
-/server/node_modules
-/db/node_modules
+/blog-service/node_modules
 
 # production
 /app/dist
-/server/dist
-/db/.env
+/app/.env
+/blog-service/dist
+/blog-service/.env
 
 # debug
 /app/npm-debug.log*
-/server/npm-debug.log*
-/db/npm-debug.log*
+/blog-service/npm-debug.log*
