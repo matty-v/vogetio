@@ -4,7 +4,7 @@
   "description": "Single page web application for voget.io",
   "main": "index.js",
   "scripts": {
-    "build-prod": "webpack --env",
+    "build-prod": "webpack",
     "dev": "webpack && concurrently --names \"webpack,nodemon\" --prefix \"({name})\" --prefix-colors \"magenta.bold,white.bold\" \"webpack --watch\" \"nodemon server.js\"",
     "dev-windows": "(for /F \"tokens=*\" %i in (.env) do set %i) && npm run dev"
   },
