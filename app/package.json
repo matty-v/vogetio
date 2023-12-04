@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "webpack": "webpack",
+    "webpack-windows": "(for /F \"tokens=*\" %i in (.env) do set %i) && webpack",
     "dev": "webpack && concurrently --names \"webpack,nodemon\" --prefix \"({name})\" --prefix-colors \"magenta.bold,white.bold\" \"webpack --watch\" \"nodemon server.js\"",
     "dev-windows": "(for /F \"tokens=*\" %i in (.env) do set %i) && npm run dev"
   },
