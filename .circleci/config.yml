@@ -32,6 +32,27 @@ commands:
             fi
 
 jobs:
+  build-and-deploy-blog-service:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - check-for-changes:
+          component: blog-service
+      - gcloud-auth
+      - node/install
+      - run:
+          name: "Build and Deploy blog-service"
+          command: |
+            cd blog-service
+
+            # build the blog-service
+            npm ci --silent
+            npm run build
+
+            # cloud function deploy
+            ./deploy-cloud-function.sh
+
   build-and-deploy-app:
     docker:
       - image: google/cloud-sdk
@@ -58,6 +79,11 @@ workflows:
   default:
     jobs:
       - build-and-deploy-app:
+          filters:
+            branches:
+              only:
+                - master
+      - build-and-deploy-blog-service:
           filters:
             branches:
               only:
