@@ -26,7 +26,7 @@ export function PostReader() {
   useEffect(() => {
     broadcast<LoaderPayload>(Events.UpdateLoader, { Enabled: true });
     fetchPostById(postId).then((p: Post) => {
-      fetchPostContent(postId).then((content: string) => {
+      fetchPostContent(p.id).then((content: string) => {
         const currentPost: Post = {
           id: p.id,
           caption: p.caption,
