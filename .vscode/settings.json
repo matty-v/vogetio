@@ -3,34 +3,30 @@
   "editor.insertSpaces": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": true,
+    "source.organizeImports": true,
   },
   "editor.rulers": [120],
-  "editor.codeActionsOnSaveTimeout": 750,
-  "eslint.lintTask.enable": true,
-  "eslint.lintTask.options": "--ext .js,.jsx,.ts,.tsx,.graphql .",
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
 
   "javascript.format.enable": false,
   "typescript.format.enable": false,
   "[javascript]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
   "[javascriptreact]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
   "[typescript]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
   "[typescriptreact]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
   "search.exclude": {
     "**/dist": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "debug.javascript.suggestPrettyPrinting": false,
   "typescript.preferences.importModuleSpecifier": "relative"
 }

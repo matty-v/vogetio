@@ -1,35 +1,29 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  HashRouter,
-} from 'react-router-dom';
-import { ThemeProvider, createTheme, PaletteMode } from '@mui/material';
+import { ThemeProvider, createTheme } from "@mui/material";
+import { HashRouter, Route, Routes } from "react-router-dom";
 
-import './App.css';
-import { Home } from './Home';
-import { TopNav } from './TopNav';
-import { PostReader } from './PostReader';
+import "./App.css";
+import { Home } from "./Home";
+import { PostReader } from "./PostReader";
+import { TopNav } from "./TopNav";
 
 export function App() {
-
   const theme = createTheme({
     palette: {
-      mode: 'dark'
+      mode: "dark",
     },
     typography: {
       fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
+        "-apple-system",
+        "BlinkMacSystemFont",
         '"Segoe UI"',
-        'Roboto',
+        "Roboto",
         '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
+        "Arial",
+        "sans-serif",
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
-      ].join(','),
+      ].join(","),
     },
   });
 
@@ -41,13 +35,13 @@ export function App() {
           <div className="App">
             <div className="container">
               <Routes>
-                <Route path="/" element={<Home />}/>
-                <Route path="/post/:id" element={<PostReader />}/>
+                <Route path="/" element={<Home />} />
+                <Route path="/post/:id" element={<PostReader />} />
               </Routes>
             </div>
           </div>
         </main>
       </HashRouter>
     </ThemeProvider>
-  )
+  );
 }

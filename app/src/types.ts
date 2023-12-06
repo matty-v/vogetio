@@ -12,4 +12,4 @@ export type Post = {
   updatedAt: string;
   pinned: string;
   published: string;
-}
+};

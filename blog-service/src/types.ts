@@ -7,4 +7,4 @@ export type Post = {
   pinned: boolean;
   published: boolean;
   tags: string[];
-}
+};

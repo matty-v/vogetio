@@ -1,4 +1,10 @@
-import { convertBlocksToMarkdown, fetchPageById, fetchPageByIdRequest, fetchPageContent, fetchPagesInDatabase, getPropValueFromPage } from 'ts-notion-client';
+import {
+  convertBlocksToMarkdown,
+  fetchPageById,
+  fetchPageContent,
+  fetchPagesInDatabase,
+  getPropValueFromPage,
+} from 'ts-notion-client';
 import { NotionBlock, NotionPageObject, NotionPropertyType } from 'ts-notion-client/dist/types';
 import { Post } from './types';
 
@@ -10,7 +16,7 @@ const blogService = express();
 
 blogService.use(express.json());
 blogService.use(express.urlencoded({ extended: true }));
-blogService.use(cors({origin: true}));
+blogService.use(cors({ origin: true }));
 blogService.use(morgan('tiny'));
 
 const notionApiKey = process.env.NOTION_API_KEY ?? '';
@@ -18,22 +24,25 @@ const blogDbId = process.env.NOTION_BLOG_DB_ID ?? '';
 
 blogService.get('/', (async (req: Request, res: Response) => {
   const posts: Post[] = [];
-  const pages: NotionPageObject[] = await fetchPagesInDatabase(notionApiKey, blogDbId);
+  let pages: NotionPageObject[] = [];
+
+  try {
+    pages = await fetchPagesInDatabase(notionApiKey, blogDbId);
+  } catch (e) {}
 
   for (let page of pages) {
-
-    const isPublished = ('true' === getPropValueFromPage(page, NotionPropertyType.checkbox, 'Published'));
+    const isPublished = 'true' === getPropValueFromPage(page, NotionPropertyType.checkbox, 'Published');
 
     if (isPublished) {
       posts.push({
         id: page.id,
         title: getPropValueFromPage(page, NotionPropertyType.title, 'Title'),
         published: isPublished,
-        pinned: ('true' === getPropValueFromPage(page, NotionPropertyType.checkbox, 'Pinned')),
+        pinned: 'true' === getPropValueFromPage(page, NotionPropertyType.checkbox, 'Pinned'),
         updatedAt: getPropValueFromPage(page, NotionPropertyType.last_edited_time, 'Last edited time'),
         caption: getPropValueFromPage(page, NotionPropertyType.rich_text, 'Caption'),
         tags: getPropValueFromPage(page, NotionPropertyType.multi_select, 'Tags').split(','),
-        createdAt: getPropValueFromPage(page, NotionPropertyType.created_time, 'Created time')
+        createdAt: getPropValueFromPage(page, NotionPropertyType.created_time, 'Created time'),
       });
     }
   }
@@ -43,10 +52,18 @@ blogService.get('/', (async (req: Request, res: Response) => {
 
 blogService.get('/:id', (async (req: Request, res: Response) => {
   const postId = req.params.id;
+  let page: NotionPageObject;
 
-  const page: NotionPageObject = await fetchPageById(notionApiKey, postId);
+  try {
+    page = await fetchPageById(notionApiKey, postId);
+  } catch (e) {}
 
-  const isPublished = ('true' === getPropValueFromPage(page, NotionPropertyType.checkbox, 'Published'));
+  if (!page) {
+    res.json({});
+    return;
+  }
+
+  const isPublished = 'true' === getPropValueFromPage(page, NotionPropertyType.checkbox, 'Published');
   if (!isPublished) {
     res.json({});
     return;
@@ -56,23 +73,26 @@ blogService.get('/:id', (async (req: Request, res: Response) => {
     id: page.id,
     title: getPropValueFromPage(page, NotionPropertyType.title, 'Title'),
     published: isPublished,
-    pinned: ('true' === getPropValueFromPage(page, NotionPropertyType.checkbox, 'Pinned')),
+    pinned: 'true' === getPropValueFromPage(page, NotionPropertyType.checkbox, 'Pinned'),
     updatedAt: getPropValueFromPage(page, NotionPropertyType.last_edited_time, 'Last edited time'),
     caption: getPropValueFromPage(page, NotionPropertyType.rich_text, 'Caption'),
     tags: getPropValueFromPage(page, NotionPropertyType.multi_select, 'Tags').split(','),
-    createdAt: getPropValueFromPage(page, NotionPropertyType.created_time, 'Created time')
-  }
+    createdAt: getPropValueFromPage(page, NotionPropertyType.created_time, 'Created time'),
+  };
 
   res.json(post);
 }) as RequestHandler);
 
 blogService.get('/:id/content', (async (req: Request, res: Response) => {
   const postId = req.params.id;
+  let postContent: NotionBlock[] = [];
 
-  const postContent: NotionBlock[] = await fetchPageContent(notionApiKey, postId);
+  try {
+    postContent = await fetchPageContent(notionApiKey, postId);
+  } catch (e) {}
 
   res.json({
-    content: convertBlocksToMarkdown(postContent)
+    content: convertBlocksToMarkdown(postContent),
   });
 }) as RequestHandler);
 
